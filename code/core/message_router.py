@@ -1,5 +1,5 @@
 
-class MessageRouter:
+class Message_Router:
 
     def __init__(self):
         self._callbacks = {}
@@ -21,7 +21,6 @@ class MessageRouter:
 
     def broadcast_message(self, event, eventdata=0):
         if event not in self._callbacks:
-            print(str(event) + ", no registered callbacks for event")
             return
 
         callbacks = self._callbacks[event]
