@@ -29,6 +29,7 @@ class Game:
         ###       Leaving as is for now to avoid conflicts in turn_manager.py
         ###       as a change would require the Turn_Manager::change_player function
         ###       to change signature // Herjeman (GUSTAV)
+        ###       PS. See clickable_component.py for example
         self.message_router.register_callback(pygame.KEYDOWN, self.on_key_down)
 
         ### TODO: I don't like keeping this definition in the init.
