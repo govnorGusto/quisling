@@ -29,11 +29,10 @@ class Game:
     def OnQuit(self, eventdata):
         self.running = False
     
+    ### TODO: This binding should happen inside the turn_manager, game does arguably not give a shit
+    ###       leaving as is for now to avoid conflicts in turn_manager.py // Herjeman (GUSTAV) 
     def OnKeyDown(self, eventdata):
         self.turn_manager.move(eventdata.key)
-
-    def events(self):
-        pass
 
     def update(self, dt):
         self.turn_manager.update()
