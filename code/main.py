@@ -3,7 +3,6 @@ from level.level import Level
 from turn_manager import Turn_Manager
 from button import Button
 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -11,16 +10,16 @@ class Game:
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("the quisling project")
         self.current_stage = Level()
+        self.running = True
 
         self.turn_manager = Turn_Manager()
         self.button = Button(WINDOW_WIDTH - 100,
-                            WINDOW_HEIGHT - 70, "NEXT")
+                             WINDOW_HEIGHT - 70, "NEXT")
 
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                self.running = False
             elif event.type == pygame.KEYDOWN:
                 self.turn_manager.move(event.key)
 
@@ -34,14 +33,17 @@ class Game:
             self.turn_manager.change_player()
 
     def run(self):
-        while True:
+        while self.running:
             dt = self.clock.tick(FPS) / 1000
-            
+
             self.events()
             self.update(dt)
             self.draw(dt)
 
             pygame.display.update()
+
+        pygame.quit()
+        sys.exit()
 
 
 if __name__ == "__main__":
