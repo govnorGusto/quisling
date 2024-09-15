@@ -22,20 +22,21 @@ class Game:
         self.message_router = Message_Router()
         self.input_manager = Input_Manager(self)
         self.turn_manager = Turn_Manager()
-        
+
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
-        
-        ### TODO: This binding should probably happen inside the turn_manager, 
-        ###       Leaving as is for now to avoid conflicts in turn_manager.py 
+
+        ### TODO: This binding should probably happen inside the turn_manager,
+        ###       Leaving as is for now to avoid conflicts in turn_manager.py
         ###       as a change would require the Turn_Manager::change_player function
         ###       to change signature // Herjeman (GUSTAV)
         self.message_router.register_callback(pygame.KEYDOWN, self.on_key_down)
-        
 
         ### TODO: I don't like keeping this definition in the init.
         ###       I assume we need some scene manager or the like where can keep
         ###       relevant UI definitions for each game state // Herjeman
-        self.button_canvas = UI_Canvas(self, pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 120, 200, 100))
+        self.button_canvas = UI_Canvas(
+            self, pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 120, 200, 100)
+        )
         self.button_canvas.color = (100, 100, 100)
         button = self.button_canvas.add_child(UI_Button)
         button.click_callbacks.append(self.turn_manager.change_player)
@@ -50,19 +51,19 @@ class Game:
 
     def on_key_down(self, eventdata):
         self.turn_manager.move(eventdata.key)
-    
+
     def on_end_turn(self, eventdata):
         self.turn_manager.change_player()
 
     def update(self, delta_time):
-        self.turn_manager.update()
+        self.turn_manager.update(delta_time)
 
     def draw(self, delta_time):
         self.current_stage.draw()
         self.turn_manager.players.draw(self.display_surface)
-            
+
         self.button_canvas.draw(self.display_surface)
-        
+
         pygame.display.update()
 
     def shutdown(self):

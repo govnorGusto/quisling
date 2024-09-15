@@ -23,8 +23,10 @@ class Turn_Manager:
 
     def move(self, key):
         """manage moves for all players"""
-        if self.player_list[self.selected_player].number_of_moves \
-                < self.player_list[self.selected_player].max_moves:
+        if (
+            self.player_list[self.selected_player].number_of_moves
+            < self.player_list[self.selected_player].max_moves
+        ):
 
             self.player_list[self.selected_player].number_of_moves += 1
 
@@ -65,7 +67,7 @@ class Turn_Manager:
             self.current_round = 0
             self.displaying_moves = False
 
-    def update(self):
+    def update(self, delta_time):
         if self.displaying_moves:
             self.apply_all_moves()
-        self.players.update()
+        self.players.update(delta_time)
