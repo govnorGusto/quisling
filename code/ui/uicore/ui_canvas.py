@@ -2,10 +2,10 @@ import pygame
 
 
 class UI_Canvas:
-    game = 0
+    game = None
 
     def __init__(self, game, rect: pygame.Rect, parent=0) -> None:
-        if self.game == 0:
+        if self.game == None:
             self.game = game
 
         self.parent: UI_Canvas = parent
