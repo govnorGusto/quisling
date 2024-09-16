@@ -12,7 +12,6 @@ from ui.ui_button import UI_Button
 from ui.ui_text import UI_Text
 from ui.uicore.ui_canvas import UI_Canvas
 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -90,13 +89,6 @@ class Game:
         sys.exit()
 
     def run(self):
-
-        ### Setup Game-object and Component example
-        game_object = self.add_game_object(Example_Game_Object)
-        other_game_object = self.add_game_object(Example_Game_Object)   
-        game_object.add_component(Example_Component)
-        ### End Game-object and Component example
-
         while self.running:
             delta_time = self.clock.tick(FPS) / 1000
 
