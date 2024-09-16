@@ -1,5 +1,6 @@
 from settings import *
 from player import Player
+from actions import MoveAction
 
 
 class Turn_Manager:
@@ -27,21 +28,24 @@ class Turn_Manager:
             self.player_list[self.selected_player].number_of_moves
             < self.player_list[self.selected_player].max_moves
         ):
-
-            self.player_list[self.selected_player].number_of_moves += 1
+            dx, dy = 0, 0
 
             if key == pygame.K_LEFT:
-                self.player_list[self.selected_player].move(-TILESIZE, 0)
-                self.player_list[self.selected_player].record_move(-TILESIZE, 0)
-            if key == pygame.K_RIGHT:
-                self.player_list[self.selected_player].move(TILESIZE, 0)
-                self.player_list[self.selected_player].record_move(TILESIZE, 0)
-            if key == pygame.K_UP:
-                self.player_list[self.selected_player].move(0, -TILESIZE)
-                self.player_list[self.selected_player].record_move(0, -TILESIZE)
-            if key == pygame.K_DOWN:
-                self.player_list[self.selected_player].move(0, TILESIZE)
-                self.player_list[self.selected_player].record_move(0, TILESIZE)
+                dx = -TILESIZE
+                self.player_list[self.selected_player].record_move(-TILESIZE, dy)
+            elif key == pygame.K_RIGHT:
+                dx = TILESIZE
+                self.player_list[self.selected_player].record_move(TILESIZE, dy)
+            elif key == pygame.K_UP:
+                dy = -TILESIZE
+                self.player_list[self.selected_player].record_move(dx, -TILESIZE)
+            elif key == pygame.K_DOWN:
+                dy = TILESIZE
+                self.player_list[self.selected_player].record_move(dx, TILESIZE)
+                
+            if dx != 0 or dy != 0:
+                MoveAction(self.player_list[self.selected_player], dx, dy)
+                self.player_list[self.selected_player].number_of_moves += 1
 
     def change_player(self):
         """change player and triggers action round"""
@@ -58,7 +62,8 @@ class Turn_Manager:
             self.current_round += 1
             for player in self.player_list:
                 try:
-                    player.move(*player.recorded_moves[self.current_round])
+                    dx, dy = player.recorded_moves[self.current_round]
+                    MoveAction(player, dx, dy)
                 except:
                     continue
         else:

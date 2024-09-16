@@ -81,10 +81,6 @@ class Player(AnimatedSprite):
         super().update(delta_time)
         self.animate()
 
-    def move(self, x, y):
-        self.rect.x += x
-        self.rect.y += y
-
     def record_move(self, x, y):
         self.recorded_moves.append((x, y))
 
