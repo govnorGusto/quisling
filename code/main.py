@@ -90,13 +90,6 @@ class Game:
         sys.exit()
 
     def run(self):
-
-        ### Setup Game-object and Component example
-        # game_object = self.add_game_object(Example_Game_Object)
-        # other_game_object = self.add_game_object(Example_Game_Object)
-        # game_object.add_component(Example_Component)
-        ### End Game-object and Component example
-
         while self.running:
             delta_time = self.clock.tick(FPS) / 1000
 

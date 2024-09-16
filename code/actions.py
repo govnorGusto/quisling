@@ -30,7 +30,6 @@ class MoveAction(Action):
             self.player.facing = 2
         if self.dy < 0:
             self.player.facing = 0
-        print(self.player.facing)
 
 
 class MeleeAttackAction(Action):

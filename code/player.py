@@ -16,28 +16,13 @@ class Player(AnimatedSprite):
         self.image = self.active_anim.get_frame(0)
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.start_x, self.start_y)
-        # self.old_rect = self.rect.copy()
         self.facing = 2
 
         self.number_of_moves = 0
         self.max_moves = 10
         self.recorded_moves = []
 
-        # temp
-        # self.font = pygame.font.SysFont(None, 30)
-        # text_surface = self.font.render(str(num), True, (0, 0, 0))
-        # text_rect = text_surface.get_rect(center=self.rect.center)
-        # self.image.blit(
-        #     text_surface,
-        #     (
-        #         self.image.get_width() // 2 - text_rect.width // 2,
-        #         self.image.get_height() // 2 - text_rect.height // 2,
-        #     ),
-        # )
-
     def load(self, num):
-        # idle SE animation
-        # use flip = true in get_animation()
         boar_SE = SpriteSheet(
             path.join("graphics", "critters", "boar", "boar_SE_idle_strip.png")
         )
