@@ -16,61 +16,102 @@ class Player(AnimatedSprite):
         self.image = self.active_anim.get_frame(0)
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.start_x, self.start_y)
+        # self.old_rect = self.rect.copy()
+        self.facing = 2
 
         self.number_of_moves = 0
         self.max_moves = 10
         self.recorded_moves = []
 
         # temp
-        self.font = pygame.font.SysFont(None, 30)
-        text_surface = self.font.render(str(num), True, (0, 0, 0))
-        text_rect = text_surface.get_rect(center=self.rect.center)
-        self.image.blit(
-            text_surface,
-            (
-                self.image.get_width() // 2 - text_rect.width // 2,
-                self.image.get_height() // 2 - text_rect.height // 2,
-            ),
-        )
+        # self.font = pygame.font.SysFont(None, 30)
+        # text_surface = self.font.render(str(num), True, (0, 0, 0))
+        # text_rect = text_surface.get_rect(center=self.rect.center)
+        # self.image.blit(
+        #     text_surface,
+        #     (
+        #         self.image.get_width() // 2 - text_rect.width // 2,
+        #         self.image.get_height() // 2 - text_rect.height // 2,
+        #     ),
+        # )
 
     def load(self, num):
         # idle SE animation
+        # use flip = true in get_animation()
         boar_SE = SpriteSheet(
             path.join("graphics", "critters", "boar", "boar_SE_idle_strip.png")
         )
         boar_SE_idle = [(i * 41, 0, 41, 25) for i in range(6)]
+        boar_NE = SpriteSheet(
+            path.join("graphics", "critters", "boar", "boar_NE_idle_strip.png")
+        )
+        boar_NE_idle = [(i * 41, 0, 41, 28) for i in range(6)]
+
         stag_SE = SpriteSheet(
             path.join("graphics", "critters", "stag", "critter_stag_SE_idle.png")
         )
-
         stag_SE_idle = [(i * 32, 0, 32, 41) for i in range(23)]
+        stag_NE = SpriteSheet(
+            path.join("graphics", "critters", "stag", "critter_stag_NE_idle.png")
+        )
+        stag_NE_idle = [(i * 32, 0, 32, 41) for i in range(23)]
 
         match num:
             case 0:
-                standing_animation = boar_SE.get_animation(
+                standing_se = boar_SE.get_animation(
                     boar_SE_idle, 0.10, Animation.PlayMode.LOOP, resize=2
                 )
-                self.store_animation("standing", standing_animation)
+                standing_sw = boar_SE.get_animation(
+                    boar_SE_idle, 0.10, Animation.PlayMode.LOOP, resize=2, flip=True
+                )
+                standing_ne = boar_NE.get_animation(
+                    boar_NE_idle, 0.10, Animation.PlayMode.LOOP, resize=2
+                )
+                standing_nw = boar_NE.get_animation(
+                    boar_NE_idle, 0.10, Animation.PlayMode.LOOP, resize=2, flip=True
+                )
             case 1:
                 self.start_y -= 24
-                standing_animation = stag_SE.get_animation(
+                standing_se = stag_SE.get_animation(
                     stag_SE_idle, 0.10, Animation.PlayMode.LOOP, resize=2
                 )
-                self.store_animation("standing", standing_animation)
+                standing_sw = stag_SE.get_animation(
+                    stag_SE_idle, 0.10, Animation.PlayMode.LOOP, resize=2, flip=True
+                )
+                standing_ne = stag_NE.get_animation(
+                    stag_NE_idle, 0.10, Animation.PlayMode.LOOP, resize=2
+                )
+                standing_nw = stag_NE.get_animation(
+                    stag_NE_idle, 0.10, Animation.PlayMode.LOOP, resize=2, flip=True
+                )
+        self.store_animation("standing_se", standing_se)
+        self.store_animation("standing_sw", standing_sw)
+        self.store_animation("standing_nw", standing_nw)
+        self.store_animation("standing_ne", standing_ne)
 
     def animate(self):
         # change standing animation
-        if self.active_name == "standing":
-            self.set_active_animation("running")
+        match self.facing:
+            case 0:
+                self.set_active_animation("standing_nw")
+            case 1:
+                self.set_active_animation("standing_ne")
+            case 2:
+                self.set_active_animation("standing_se")
+            case 3:
+                self.set_active_animation("standing_sw")
 
-        # change running animation
-        if self.active_name == "running":
-            self.set_active_animation("halting")
+        # if self.active_name == "standing":
+        #     self.set_active_animation("running")
 
-        # change halting animaiton
-        if self.active_name == "halting":
-            if self.active_anim.is_animation_finished(self.elapsed_time):
-                self.set_active_animation("standing")
+        # # change running animation
+        # if self.active_name == "running":
+        #     self.set_active_animation("halting")
+
+        # # change halting animaiton
+        # if self.active_name == "halting":
+        #     if self.active_anim.is_animation_finished(self.elapsed_time):
+        #         self.set_active_animation("standing")
 
         topleft = self.rect.topleft
         self.image = self.active_anim.get_frame(self.elapsed_time)
@@ -79,6 +120,7 @@ class Player(AnimatedSprite):
 
     def update(self, delta_time):
         super().update(delta_time)
+        self.active_anim
         self.animate()
 
     def record_move(self, x, y):

@@ -16,8 +16,8 @@ from ui.uicore.ui_canvas import UI_Canvas
 class Game:
     def __init__(self):
         pygame.init()
-        
-        self.game_objects : [Game_object] = []
+
+        self.game_objects: [Game_object] = []
 
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
@@ -49,7 +49,7 @@ class Game:
         button.click_callbacks.append(self.turn_manager.change_player)
         text = button.add_child(UI_Text)
         text.text = "End Turn"
-    
+
     def add_game_object(self, type_to_add) -> Game_object:
         if not issubclass(type_to_add, Game_object):
             print("ERROR: Do not add non Game Object derived objects as Game objects")
@@ -72,7 +72,7 @@ class Game:
     def update(self, delta_time):
         for game_object in self.game_objects:
             game_object.update(delta_time)
-            
+
         self.turn_manager.update(delta_time)
 
     def draw(self, delta_time):
@@ -92,9 +92,9 @@ class Game:
     def run(self):
 
         ### Setup Game-object and Component example
-        game_object = self.add_game_object(Example_Game_Object)
-        other_game_object = self.add_game_object(Example_Game_Object)   
-        game_object.add_component(Example_Component)
+        # game_object = self.add_game_object(Example_Game_Object)
+        # other_game_object = self.add_game_object(Example_Game_Object)
+        # game_object.add_component(Example_Component)
         ### End Game-object and Component example
 
         while self.running:

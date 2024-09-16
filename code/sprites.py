@@ -13,7 +13,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def store_animation(self, name, anim):
         self.animation_storage[name] = anim
-
+        print(self.animation_storage)
         # if no animation playing, start this one
         if self.active_name == "":
             self.set_active_animation(name)
