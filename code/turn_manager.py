@@ -15,12 +15,14 @@ class Turn_Manager:
 
     def get_players(self):
         """add list of players"""
-        x = 5
+        x = 9
+        y = 7
         for i in range(PLAYER_AMOUNT):
-            p = Player(x, 10, i)
+            p = Player(x, y, i)
             self.players.add(p)
             self.player_list.append(p)
-            x += 5
+            x += 11
+            y += 1.5
 
     def move(self, key):
         """manage moves for all players"""
@@ -42,7 +44,7 @@ class Turn_Manager:
             elif key == pygame.K_DOWN:
                 dy = TILESIZE
                 self.player_list[self.selected_player].record_move(dx, TILESIZE)
-                
+
             if dx != 0 or dy != 0:
                 MoveAction(self.player_list[self.selected_player], dx, dy)
                 self.player_list[self.selected_player].number_of_moves += 1
