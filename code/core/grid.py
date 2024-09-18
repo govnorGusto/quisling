@@ -2,8 +2,8 @@ from settings import *
 from core.game_object import Game_object
 
 class Grid(Game_object):
-    def __init__(self, game):
-        super().__init__(game)
+    def __init__(self):
+        super().__init__()
 
         self.map = [[[] for _ in range(int(GRID_HEIGHT))] for _ in range(int(GRID_WIDTH))]
         self.objects_positions = {}

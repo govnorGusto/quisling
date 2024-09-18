@@ -12,22 +12,24 @@ from ui.ui_button import UI_Button
 from ui.ui_text import UI_Text
 from ui.uicore.ui_canvas import UI_Canvas
 
+from core.grid import Grid
+
 
 class Game:
     def __init__(self):
         pygame.init()
-
-        self.game_objects: [Game_object] = []
-
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("the quisling project")
-        self.current_stage = Level()
-        self.running = True
 
-        self.message_router = Message_Router()
+
+        self.current_stage = Level()
+
+        self.game_objects: [Game_object] = []
         self.input_manager = Input_Manager(self)
+        self.grid = Grid()
         self.turn_manager = Turn_Manager()
+        self.message_router = Message_Router()
 
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
 
@@ -50,12 +52,11 @@ class Game:
         text = button.add_child(UI_Text)
         text.text = "End Turn"
 
-    def add_game_object(self, type_to_add) -> Game_object:
-        if not issubclass(type_to_add, Game_object):
+    def add_game_object(self, game_object : Game_object) -> None:
+        if not issubclass(game_object.__class__, Game_object):
             print("ERROR: Do not add non Game Object derived objects as Game objects")
             return
-        self.game_objects.append(type_to_add(self))
-        return self.game_objects[-1]
+        self.game_objects.append(game_object)
 
     def process_input(self):
         self.input_manager.process_input()
@@ -84,12 +85,17 @@ class Game:
         self.button_canvas.draw(self.display_surface)
 
         pygame.display.update()
+        
+    def initialise_game(self):
+        self.running = True
 
     def shutdown(self):
         pygame.quit()
         sys.exit()
 
     def run(self):
+        self.initialise_game()
+
         while self.running:
             delta_time = self.clock.tick(FPS) / 1000
 

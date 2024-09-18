@@ -1,3 +1,5 @@
+from uu import Error
+import abc
 from settings import *
 
 class Component:
@@ -8,9 +10,15 @@ class Component:
         self.owner = owner
         
     def update(self, delta_time : float):
+        self.on_update(delta_time)
+
+    def on_update(self, delta_time : float):
         pass
-    
+
     def draw(self, delta_time : float):
+        self.on_draw()
+    
+    def on_draw(self, delta_time : float):
         pass
     
     def print(self) -> None:
@@ -20,16 +28,29 @@ class Game_object:
     game = None
     def __init__(self, game=None):
         if self.game == None:
-            self.game = game
+            if game == None:
+                raise Error("First gameobject initialized must receive a valid game reference")
+            Game_object.game = game
+            
+        Game_object.game.add_game_object(self)
         self.components = []
     
     def update(self, delta_time : float):
+        self.on_update(delta_time)        
+
         for component in self.components:
-            component.update(delta_time)
+            component.update(delta_time)        
+        
+    def on_update(self, delta_time : float):
+        pass
             
-    def draw(self, delta_time):
+    def draw(self, delta_time : float):
+        self.on_draw(delta_time)
         for component in self.components:
             component.draw(delta_time)
+            
+    def on_draw(self, delta_time : float):
+        pass
             
     def add_component(self, type_to_add) -> Component:
         if not issubclass(type_to_add, Component):
