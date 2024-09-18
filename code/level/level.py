@@ -27,8 +27,8 @@ class Level:
                     # math to offset the isometric tiles (for a smoooth surface) and positioning of the map
                     self.tiles.add(
                         Tiles(
-                            (4 + col * 1 - row * 1),
-                            (-2 + col * 0.5 + row * 0.5),
+                            (col * 1 - row * 1),
+                            (col * 0.5 + row * 0.5),
                             bg="black",
                             scale=2,
                         )
