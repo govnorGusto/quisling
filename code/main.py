@@ -88,7 +88,7 @@ class Game:
 
     def initialise_game(self):
         self.running = True
-        self.grid.load_tmx("graphics/level_test.tmx")
+        self.grid.load_tmx(join("graphics", "isometric tileset", "level_test.tmx"))
 
     def shutdown(self):
         pygame.quit()
