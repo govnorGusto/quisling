@@ -1,5 +1,6 @@
 import pygame
 from enum import Enum
+from core.game_object import Game_object
 
 
 class EStackingMode(Enum):
@@ -7,12 +8,10 @@ class EStackingMode(Enum):
     HORIZONTAL = 1
 
 
-class UI_Canvas:
-    game = None
+class UI_Canvas(Game_object):
 
-    def __init__(self, game, rect: pygame.Rect, parent=0) -> None:
-        if self.game == None:
-            self.game = game
+    def __init__(self, rect: pygame.Rect, parent=0) -> None:
+        super().__init__(self)
 
         self.parent: UI_Canvas = parent
         self.visible: bool = True
@@ -36,28 +35,22 @@ class UI_Canvas:
 
         child_rect = pygame.Rect(self.get_child_rect())
 
-        self._child_canvases.append(type_to_add(self.game, child_rect, self))
+        self._child_canvases.append(type_to_add(child_rect, self))
         return self._child_canvases[-1]
 
-    def draw(self, surface: pygame.Surface) -> None:
+    def on_draw(self, delta_time : float) -> None:
         if not self.visible:
             return
 
         surface_to_draw = pygame.Surface(self.rect.size)
         surface_to_draw.fill(self.color)
         surface_to_draw.set_alpha(self.alpha)
-        surface.blit(surface_to_draw, self.rect)
-
-        for child in self._child_canvases:
-            child.draw(surface)
+        pygame.display.get_surface().blit(surface_to_draw, self.rect)
 
     def get_outer_parent(self):
         if self.parent == 0:
             return self
         return self.parent.get_outer_parent()
-
-    def on_event(self, eventdata):
-        self.print()
 
     def get_child_rect(self) -> pygame.Rect:
         if self.stacking_mode == EStackingMode.VERTICAL:

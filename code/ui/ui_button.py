@@ -4,14 +4,16 @@ import pygame
 
 
 class UI_Button(UI_Canvas):
-    def __init__(self, game, rect: pygame.Rect, parent) -> None:
-        super().__init__(parent.game, rect, parent)
+    def __init__(self, rect: pygame.Rect, parent) -> None:
+        super().__init__(rect, parent)
 
-        self._clickable_component: Clickable = Clickable(game, rect)
-        self._clickable_component.on_mouse_enter.append(self.mouse_enter)
-        self._clickable_component.on_mouse_exit.append(self.mouse_exit)
-        self._clickable_component.on_click.append(self.mouse_click)
-        self._clickable_component.on_release.append(self.mouse_release)
+        clickable = self.add_component(Clickable)
+        clickable.set_rect(rect)
+        
+        clickable.on_mouse_enter.append(self.mouse_enter)
+        clickable.on_mouse_exit.append(self.mouse_exit)
+        clickable.on_click.append(self.mouse_click)
+        clickable.on_release.append(self.mouse_release)
 
         ### TODO: This is not really a good spot for color definitions,
         ###       we want a proper set-method

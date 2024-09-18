@@ -38,7 +38,6 @@ class Level:
         pass
 
     def draw(self):
-        self.display_surface.fill(BG_COLOR)
         # for x in range(0, WINDOW_WIDTH, TILESIZE):
         #     pygame.draw.line(
         #         self.display_surface, GRID_COLOR, (x, 0), (x, WINDOW_HEIGHT)

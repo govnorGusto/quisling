@@ -1,6 +1,4 @@
 from uu import Error
-import abc
-from settings import *
 
 class Component:
     def __init__(self, owner):
@@ -16,8 +14,11 @@ class Component:
         pass
 
     def draw(self, delta_time : float):
-        self.on_draw()
+        self.on_draw(delta_time)
     
+    def get_game(self):
+        return self.owner.game
+
     def on_draw(self, delta_time : float):
         pass
     

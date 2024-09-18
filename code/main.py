@@ -22,7 +22,6 @@ class Game:
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("the quisling project")
 
-
         self.current_stage = Level()
 
         self.game_objects: [Game_object] = []
@@ -44,7 +43,7 @@ class Game:
         ###       I assume we need some scene manager or the like where can keep
         ###       relevant UI definitions for each game state // Herjeman
         self.button_canvas = UI_Canvas(
-            self, pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 120, 200, 100)
+            pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 120, 200, 100)
         )
         self.button_canvas.color = (100, 100, 100)
         button = self.button_canvas.add_child(UI_Button)
@@ -52,7 +51,7 @@ class Game:
         text = button.add_child(UI_Text)
         text.text = "End Turn"
 
-    def add_game_object(self, game_object : Game_object) -> None:
+    def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):
             print("ERROR: Do not add non Game Object derived objects as Game objects")
             return
@@ -77,15 +76,16 @@ class Game:
         self.turn_manager.update(delta_time)
 
     def draw(self, delta_time):
+        self.display_surface.fill(BG_COLOR)
+
         for game_object in self.game_objects:
             game_object.draw(delta_time)
 
         self.current_stage.draw()
         self.turn_manager.players.draw(self.display_surface)
-        self.button_canvas.draw(self.display_surface)
 
         pygame.display.update()
-        
+
     def initialise_game(self):
         self.running = True
 

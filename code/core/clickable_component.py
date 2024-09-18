@@ -1,10 +1,12 @@
 import pygame
 from core.message_router import Message_Router
+from core.game_object import Component
 
 
-class Clickable():
-    def __init__(self, game, rect : pygame.Rect) -> None:
-        self.rect = rect
+class Clickable(Component):
+    def __init__(self, owner) -> None:
+        super().__init__(owner)
+        self.rect = None
         self.mouse_is_overlapping = False
         
         self.on_click = []
@@ -12,10 +14,12 @@ class Clickable():
         self.on_mouse_enter = []
         self.on_mouse_exit = []
         
-        game.message_router.register_callback(pygame.MOUSEMOTION, self.OnMouseMove)
-        game.message_router.register_callback(pygame.MOUSEBUTTONDOWN, self.OnMouseDown)
-        game.message_router.register_callback(pygame.MOUSEBUTTONUP, self.OnMouseUp)
+        self.get_game().message_router.register_callback(pygame.MOUSEMOTION, self.OnMouseMove)
+        self.get_game().message_router.register_callback(pygame.MOUSEBUTTONDOWN, self.OnMouseDown)
+        self.get_game().message_router.register_callback(pygame.MOUSEBUTTONUP, self.OnMouseUp)
      
+    def set_rect(self, rect):
+        self.rect = rect
 
     def OnMouseMove(self, eventdata):
         overlap = self.rect.collidepoint(pygame.mouse.get_pos())
