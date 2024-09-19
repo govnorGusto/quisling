@@ -72,10 +72,9 @@ class Game:
 
     def initialise_game(self):
         self.running = True
-        self.grid.load_tmx(join("graphics", "isometric tileset", "level_test_2.tmx"))
-        # self.grid.load_tmx(join("graphics", "isometric tileset", "grass.tmx"))
+        self.grid.load_tmx(join("graphics", "tmx", "level_test.tmx"))
+        # self.grid.load_tmx(join("graphics", "tmx", "grass.tmx"))
         self.turn_manager.get_players()
-
 
     def shutdown(self):
         pygame.quit()
