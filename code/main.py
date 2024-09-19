@@ -68,21 +68,13 @@ class Game:
         for game_object in self.game_objects:
             game_object.draw(delta_time)
 
-        self.turn_manager.players.draw(self.display_surface)
-
         pygame.display.update()
 
     def initialise_game(self):
         self.running = True
-        self.grid.load_tmx(join("graphics", "isometric tileset", "grass.tmx"))
+        self.grid.load_tmx(join("graphics", "isometric tileset", "level_test_2.tmx"))
         # self.grid.load_tmx(join("graphics", "isometric tileset", "grass.tmx"))
-        self.players = []
-        x = 1
-        y = 1
-        for i in range(PLAYER_AMOUNT):
-            self.players.append(Sprite_object(x, y, i))
-            x += 3
-            y += 3
+        self.turn_manager.get_players()
 
 
     def shutdown(self):

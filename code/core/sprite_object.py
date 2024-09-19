@@ -1,10 +1,9 @@
 from settings import *
 from core.game_object import Game_object
 
-class Sprite_object(Game_object, pygame.sprite.Sprite):
-    def __init__(self, game, x, y):
-        super().__init__(game)
-        pygame.sprite.Sprite.__init__(self)
+class Sprite_object(Game_object):
+    def __init__(self, x, y):
+        super().__init__()
 
         self.image = pygame.Surface((TILESIZE, TILESIZE))
         self.image.fill((255, 255, 255))

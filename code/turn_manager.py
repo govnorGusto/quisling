@@ -6,23 +6,21 @@ from actions import MoveAction
 class Turn_Manager:
     def __init__(self) -> None:
         self.selected_player = 0
-        self.players = pygame.sprite.Group()
         self.player_list = []
-        self.get_players()
 
         self.displaying_moves = False
         self.current_round = 0
 
+    def get_current_player(self):
+        return self.player_list[self.selected_player]
+    
     def get_players(self):
         """add list of players"""
-        x = 9
-        y = 7
+        x = 0
+        y = 0
         for i in range(PLAYER_AMOUNT):
             p = Player(x, y, i)
-            self.players.add(p)
             self.player_list.append(p)
-            x += 11
-            y += 1.5
 
     def move(self, key):
         """manage moves for all players"""
@@ -77,7 +75,6 @@ class Turn_Manager:
     def update(self, delta_time):
         if self.displaying_moves:
             self.apply_all_moves()
-        self.players.update(delta_time)
         
     def get_current_player(self):
         return self.player_list[self.selected_player]

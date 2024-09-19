@@ -5,17 +5,13 @@ from spritesheet import SpriteSheet, Animation
 
 class Player(AnimatedSprite):
     def __init__(self, x, y, num=None) -> None:
-        super().__init__()
-        self.display_surface = pygame.display.get_surface()
+        super().__init__(x, y)
+
         self.image = pygame.Surface((TILESIZE, TILESIZE))
 
-        # sprite
-        self.start_x = x * TILESIZE
-        self.start_y = y * TILESIZE
         self.load(num)
         self.image = self.active_anim.get_frame(0)
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (self.start_x, self.start_y)
+
         self.facing = 2
 
         self.number_of_moves = 0

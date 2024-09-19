@@ -1,10 +1,10 @@
 from settings import *
+from core.sprite_object import Sprite_object
 
 
-class AnimatedSprite(pygame.sprite.Sprite):
-    def __init__(self, *groups):
-        super().__init__(groups)
-
+class AnimatedSprite(Sprite_object):
+    def __init__(self, x, y):
+        super().__init__(x, y)
         # control
         self.elapsed_time = 0
         self.active_anim = None
