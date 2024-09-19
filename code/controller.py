@@ -11,4 +11,4 @@ class Controller(Game_object):
         self.game.message_router.register_callback("Move_command", self.receive_move_input)
     
     def receive_move_input(self, movedata):
-        self.move.execute(self.game.turn_manager.get_current_player(), movedata[0], movedata[1])
+        self.move.execute(self.game.players[self.current_player], movedata[0], movedata[1])

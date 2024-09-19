@@ -25,15 +25,9 @@ class Game:
         self.grid = Grid()
         self.turn_manager = Turn_Manager()
         self.message_router = Message_Router()
+        self.controller = Controller()
 
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
-
-        ### TODO: This binding should probably happen inside the turn_manager,
-        ###       Leaving as is for now to avoid conflicts in turn_manager.py
-        ###       as a change would require the Turn_Manager::change_player function
-        ###       to change signature // Herjeman (GUSTAV)
-        ###       PS. See clickable_component.py for example
-        self.message_router.register_callback(pygame.KEYDOWN, self.on_key_down)
 
         ### TODO: I don't like keeping this definition in the init.
         ###       I assume we need some scene manager or the like where can keep
@@ -58,9 +52,6 @@ class Game:
 
     def on_quit(self, eventdata):
         self.running = False
-
-    def on_key_down(self, eventdata):
-        self.turn_manager.move(eventdata.key)
 
     def on_end_turn(self, eventdata):
         self.turn_manager.change_player()
@@ -92,7 +83,6 @@ class Game:
             self.players.append(Sprite_object(x, y, i))
             x += 3
             y += 3
-        self.controller = Controller()
 
 
     def shutdown(self):

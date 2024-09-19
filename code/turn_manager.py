@@ -78,3 +78,6 @@ class Turn_Manager:
         if self.displaying_moves:
             self.apply_all_moves()
         self.players.update(delta_time)
+        
+    def get_current_player(self):
+        return self.player_list[self.selected_player]
