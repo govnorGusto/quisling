@@ -15,7 +15,10 @@ class Cell(Game_object):
 
     def on_draw(self, delta_time: float):
         if self.tile:
-            img = pygame.transform.scale(self.tile.image, (self.game.grid.tile_width * SCALE, self.game.grid.tile_width * SCALE))
+            img = pygame.transform.scale(
+                self.tile.image,
+                (self.game.grid.tile_width * SCALE, self.game.grid.tile_width * SCALE),
+            )
             img.set_colorkey(BG_COLOR)
             self.game.display_surface.blit(img, self.tile.rect)
 
@@ -99,7 +102,7 @@ class Grid(Game_object):
         cell_width = self.tile_width
         cell_height = self.tile_height
 
-        x_offset = pygame.Vector2( -cell_width, cell_height)
+        x_offset = pygame.Vector2(-cell_width, cell_height)
         y_offset = pygame.Vector2(cell_width, cell_height)
         origin = pygame.Vector2(GRID_X_ORIGIN, GRID_Y_ORIGIN)
 

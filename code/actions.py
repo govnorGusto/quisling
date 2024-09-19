@@ -9,6 +9,7 @@ from core.game_object import Game_object
 #     def execute(self):
 #         pass
 
+
 class Action(Game_object):
     def __init__(self, action_cost):
         super().__init__()
@@ -18,12 +19,13 @@ class Action(Game_object):
     def execute(self):
         pass
 
+
 class Move(Action):
     def __init__(self, action_cost=1):
         super().__init__(action_cost)
 
     def execute(self, obj, dx, dy):
-        if hasattr(obj, 'stamina'):
+        if hasattr(obj, "stamina"):
             if obj.stamina < self.action_cost:
                 print("Not enough stamina")
             else:
@@ -31,15 +33,19 @@ class Move(Action):
                 self.move(obj, dx, dy)
         else:
             self.move(obj, dx, dy)
-                
+
     def move(self, obj, dx, dy):
         new_x = obj.x + dx
         new_y = obj.y + dy
-        if self.game.grid.in_bounds(new_x, new_y) and self.game.grid.map[new_x][new_y].tile.walkable:
+        if (
+            self.game.grid.in_bounds(new_x, new_y)
+            and self.game.grid.map[new_x][new_y].tile.walkable
+        ):
             obj.x = new_x
             obj.y = new_y
             self.game.grid.move(obj, obj.x, obj.y)
-            obj.rect.topleft = self.game.grid.grid_to_screen(obj.x,  obj.y)
+            obj.rect.topleft = self.game.grid.grid_to_screen(obj.x, obj.y)
+
 
 class MoveAction(Action):
     def __init__(self, player, dx, dy, action_cost=1):

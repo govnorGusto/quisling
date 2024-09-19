@@ -1,7 +1,8 @@
 from settings import *
 
+
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, image, walkable:bool):
+    def __init__(self, pos, image, walkable: bool):
         pygame.sprite.Sprite.__init__(self)
         self.image = image.convert()
         self.walkable = walkable

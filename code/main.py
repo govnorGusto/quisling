@@ -9,7 +9,6 @@ from ui.ui_text import UI_Text
 from ui.uicore.ui_canvas import UI_Canvas
 
 from core.grid import Grid
-from core.sprite_object import Sprite_object
 from controller import Controller
 
 

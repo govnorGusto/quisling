@@ -1,4 +1,3 @@
-
 class Message_Router:
 
     def __init__(self):

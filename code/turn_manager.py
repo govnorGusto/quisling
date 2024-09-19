@@ -13,7 +13,7 @@ class Turn_Manager:
 
     def get_current_player(self):
         return self.player_list[self.selected_player]
-    
+
     def get_players(self):
         """add list of players"""
         x = 0
@@ -50,4 +50,3 @@ class Turn_Manager:
     def update(self, delta_time):
         if self.displaying_moves:
             self.apply_all_moves()
-        
