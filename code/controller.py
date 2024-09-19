@@ -8,13 +8,7 @@ class Controller(Game_object):
 
         self.current_player = 0
         self.move = Move()
+        self.game.message_router.register_callback("Move_command", self.receive_move_input)
     
-    def get_input(self, key):
-        if key == pygame.K_LEFT:
-            self.move.execute(self.game.players[self.current_player], 1, 0)
-        elif key == pygame.K_RIGHT:
-            self.move.execute(self.game.players[self.current_player], -1, 0)
-        elif key == pygame.K_UP:
-            self.move.execute(self.game.players[self.current_player], 0, -1)
-        elif key == pygame.K_DOWN:
-            self.move.execute(self.game.players[self.current_player], 0, 1)
+    def receive_move_input(self, movedata):
+        self.move.execute(self.game.turn_manager.get_current_player(), movedata[0], movedata[1])
