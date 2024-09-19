@@ -12,8 +12,8 @@ class Cell(Game_object):
 
     def __repr__(self) -> str:
         return f"{[obj for obj in self.occupants]}"
-
-    def on_draw(self, delta_time: float):
+    
+    def draw_cell(self):
         if self.tile:
             img = pygame.transform.scale(
                 self.tile.image,
@@ -22,6 +22,10 @@ class Cell(Game_object):
             img.set_colorkey(BG_COLOR)
             self.game.display_surface.blit(img, self.tile.rect)
 
+
+    def on_draw(self, delta_time: float):
+        pass
+        
 
 class Grid(Game_object):
     def __init__(self):
@@ -102,9 +106,17 @@ class Grid(Game_object):
         cell_width = self.tile_width
         cell_height = self.tile_height
 
-        x_offset = pygame.Vector2(-cell_width, cell_height)
+        x_offset = pygame.Vector2(cell_width, -cell_height)
         y_offset = pygame.Vector2(cell_width, cell_height)
         origin = pygame.Vector2(GRID_X_ORIGIN, GRID_Y_ORIGIN)
 
         loc = origin + x_offset * grid_x + y_offset * grid_y
+        print(f"Converting Grid coordinates: {(grid_x,grid_y)} to Screnspace: {loc}")
         return (loc.x, loc.y)
+    
+    def on_draw(self, delta_time: float):
+        self.width
+        self.height
+        for x in range(self.width -1, -1, -1):
+            for y in range(self.height):
+                 self.map[x][y].draw_cell()
