@@ -9,6 +9,7 @@ class Player(AnimatedSprite):
 
         self.image = pygame.Surface((TILESIZE, TILESIZE))
 
+        self.draw_offset = (0, 0)
         self.load(num)
         self.image = self.active_anim.get_frame(0)
 
@@ -43,6 +44,7 @@ class Player(AnimatedSprite):
 
         match num:
             case 0:
+                self.draw_offset = (0, -5)
                 standing_se = boar_SE.get_animation(
                     boar_SE_idle, 0.10, Animation.PlayMode.LOOP, resize=2
                 )
@@ -56,7 +58,7 @@ class Player(AnimatedSprite):
                     boar_NE_idle, 0.10, Animation.PlayMode.LOOP, resize=2, flip=True
                 )
             case 1:
-                self.start_y -= 24
+                self.draw_offset = (8, -40)
                 standing_se = stag_SE.get_animation(
                     stag_SE_idle, 0.10, Animation.PlayMode.LOOP, resize=2
                 )
@@ -122,3 +124,7 @@ class Player(AnimatedSprite):
         """Move player back to start position of the round"""
         self.rect.x = self.start_x
         self.rect.y = self.start_y
+
+    def on_draw(self, delta_time: float):
+        print(self.draw_offset)
+        self.game.display_surface.blit(self.image, self.rect.move(self.draw_offset))
