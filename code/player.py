@@ -126,5 +126,4 @@ class Player(AnimatedSprite):
         self.rect.y = self.start_y
 
     def on_draw(self, delta_time: float):
-        print(self.draw_offset)
         self.game.display_surface.blit(self.image, self.rect.move(self.draw_offset))

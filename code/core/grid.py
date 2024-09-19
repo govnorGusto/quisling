@@ -111,7 +111,7 @@ class Grid(Game_object):
         origin = pygame.Vector2(GRID_X_ORIGIN, GRID_Y_ORIGIN)
 
         loc = origin + x_offset * grid_x + y_offset * grid_y
-        print(f"Converting Grid coordinates: {(grid_x,grid_y)} to Screnspace: {loc}")
+        # print(f"Converting Grid coordinates: {(grid_x,grid_y)} to Screnspace: {loc}")
         return (loc.x, loc.y)
     
     def on_draw(self, delta_time: float):
