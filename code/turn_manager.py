@@ -22,31 +22,6 @@ class Turn_Manager:
             p = Player(x, y, i)
             self.player_list.append(p)
 
-    def move(self, key):
-        """manage moves for all players"""
-        if (
-            self.player_list[self.selected_player].number_of_moves
-            < self.player_list[self.selected_player].max_moves
-        ):
-            dx, dy = 0, 0
-
-            if key == pygame.K_LEFT:
-                dx = -TILESIZE
-                self.player_list[self.selected_player].record_move(-TILESIZE, dy)
-            elif key == pygame.K_RIGHT:
-                dx = TILESIZE
-                self.player_list[self.selected_player].record_move(TILESIZE, dy)
-            elif key == pygame.K_UP:
-                dy = -TILESIZE
-                self.player_list[self.selected_player].record_move(dx, -TILESIZE)
-            elif key == pygame.K_DOWN:
-                dy = TILESIZE
-                self.player_list[self.selected_player].record_move(dx, TILESIZE)
-
-            if dx != 0 or dy != 0:
-                MoveAction(self.player_list[self.selected_player], dx, dy)
-                self.player_list[self.selected_player].number_of_moves += 1
-
     def change_player(self):
         """change player and triggers action round"""
         self.player_list[self.selected_player].reset_position()
@@ -76,5 +51,3 @@ class Turn_Manager:
         if self.displaying_moves:
             self.apply_all_moves()
         
-    def get_current_player(self):
-        return self.player_list[self.selected_player]
