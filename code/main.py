@@ -1,12 +1,8 @@
 from settings import *
-from level.level import Level
 from turn_manager import Turn_Manager
-from button import Button
 from core.message_router import Message_Router
 from core.input_manager import Input_Manager
 from core.game_object import Game_object
-from game_objects.example_game_object import Example_Game_Object
-from game_objects.components.example_component import Example_Component
 
 from ui.ui_button import UI_Button
 from ui.ui_text import UI_Text
@@ -21,8 +17,6 @@ class Game:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("the quisling project")
-
-        self.current_stage = Level()
 
         self.game_objects: [Game_object] = []
         self.input_manager = Input_Manager(self)
@@ -81,14 +75,15 @@ class Game:
         for game_object in self.game_objects:
             game_object.draw(delta_time)
 
-        self.current_stage.draw()
         self.turn_manager.players.draw(self.display_surface)
 
         pygame.display.update()
 
     def initialise_game(self):
         self.running = True
+        # self.grid.load_tmx(join("graphics", "isometric tileset", "level_test.tmx"))
         self.grid.load_tmx(join("graphics", "isometric tileset", "grass.tmx"))
+        print(self.grid.map)
 
     def shutdown(self):
         pygame.quit()

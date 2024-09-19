@@ -4,19 +4,28 @@ from core.tile import Tile
 from pytmx.util_pygame import load_pygame
 
 
-class Cell:
+class Cell(Game_object):
     def __init__(self) -> None:
+        super().__init__()
         self.tile: Tile = None
         self.occupants = []
 
     def __repr__(self) -> str:
         return f"{[obj for obj in self.occupants]}"
 
+    def on_draw(self, delta_time: float):
+        if self.tile:
+            surf = pygame.display.get_surface()
+            img = pygame.transform.scale(self.tile.image, (self.game.grid.tile_width * SCALE, self.game.grid.tile_width * SCALE))
+            img.set_colorkey(BG_COLOR)
+            surf.blit(img, self.tile.rect)
+
 
 class Grid(Game_object):
     def __init__(self):
         super().__init__()
         self.objects_positions = {}
+        self.map = []
 
     def load_tmx(self, tmx_file):
         try:
@@ -31,35 +40,13 @@ class Grid(Game_object):
         self.map = [[Cell() for _ in range(self.height)] for _ in range(self.width)]
 
         for x, y, surf in tmx_data.get_layer_by_name("base").tiles():
-            self.map[x][y].tile = Tile(x, y, surf, False)
+            self.map[x][y].tile = Tile(self.grid_to_screen(y, x), surf, False)
         for x, y, surf in tmx_data.get_layer_by_name("ground").tiles():
-            self.map[x][y].tile = Tile(x, y, surf, True)
+            self.map[x][y].tile = Tile(self.grid_to_screen(y, x), surf, True)
 
     def add(self, obj, x, y):
         self.map[x][y].occupants.append(obj)
         self.objects_positions[obj] = (x, y)
-
-    def on_draw(self, delta_time: float):
-        surf = pygame.display.get_surface()
-        color = (255, 0, 255)
-        for x in range(len(self.map)):
-            for y in range(len(self.map[x])):
-                surface_to_draw = pygame.image.load(
-                    join(
-                        "graphics",
-                        "isometric tileset",
-                        "separated images",
-                        "tile_003.png",
-                    )
-                ).convert()
-                surface_to_draw.set_colorkey(BG_COLOR)
-                
-                surface_to_draw = pygame.transform.scale(surface_to_draw, (self.tile_width * SCALE, self.tile_width * SCALE))
-                
-                draw_pos = self.grid_to_screen(x, y)
-                rect_to_draw = pygame.Rect(draw_pos, (self.tile_width, self.tile_height))
-                surf.blit(surface_to_draw, rect_to_draw)
-                surf.set_at(draw_pos, color)
 
     def remove(self, obj, x, y):
         if obj in self.map[x][y].occupants:
