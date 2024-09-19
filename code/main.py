@@ -11,6 +11,9 @@ from ui.uicore.ui_canvas import UI_Canvas
 from core.grid import Grid
 from controller import Controller
 
+from ui.ui_manager import construct_ui_element
+from ui.ui_definitions import UI_NEXT_BUTTON
+
 
 class Game:
     def __init__(self):
@@ -28,17 +31,7 @@ class Game:
 
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
 
-        ### TODO: I don't like keeping this definition in the init.
-        ###       I assume we need some scene manager or the like where can keep
-        ###       relevant UI definitions for each game state // Herjeman
-        self.button_canvas = UI_Canvas(
-            pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 120, 200, 100)
-        )
-        self.button_canvas.color = (100, 100, 100)
-        button = self.button_canvas.add_child(UI_Button)
-        button.click_callbacks.append(self.turn_manager.change_player)
-        text = button.add_child(UI_Text)
-        text.text = "End Turn"
+        construct_ui_element(UI_NEXT_BUTTON)
 
     def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):

@@ -16,7 +16,7 @@ class UI_Button(UI_Canvas):
         clickable.on_release.append(self.mouse_release)
 
         ### TODO: This is not really a good spot for color definitions,
-        ###       we want a proper set-method
+        ###       we want a proper set-method, Automate shadings
         self.color_default = (175, 175, 175)
         self.color_hover = (155, 155, 155)
         self.color_click = (15, 15, 15)

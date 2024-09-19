@@ -3,7 +3,7 @@ import pygame
 
 
 class UI_Text(UI_Canvas):
-    def __init__(self, rect: pygame.Rect, parent, text = "") -> None:
+    def __init__(self, rect: pygame.Rect, parent, text = "Text") -> None:
         super().__init__(rect, parent)
         self.alpha = 0
         self.text = text
