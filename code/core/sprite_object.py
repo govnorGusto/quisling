@@ -7,6 +7,7 @@ class Sprite_object(Game_object, pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.Surface((TILESIZE, TILESIZE))
+        self.image.fill((255, 255, 255))
 
         self.start_x = x
         self.start_y = y
@@ -18,15 +19,12 @@ class Sprite_object(Game_object, pygame.sprite.Sprite):
         self.game.grid.add(self, self.x, self.y)
 
         self.rect = self.image.get_rect()
-        self.rect.topleft = (self.x * TILESIZE, self.y * TILESIZE)
+        self.rect.topleft = self.game.grid.grid_to_screen(self.x, self.y)
 
-    # FIXME: Move move?
-    def move(self, dx, dy):
-        self.game.grid.move(self, dx, dy)
-        self.x += dx
-        self.rect.x += dx * TILESIZE
-        self.y += dy
-        self.rect.y += dy * TILESIZE
+    def on_draw(self, delta_time: float):
+        self.game.display_surface.blit(self.image, self.rect)
+
+
 
 
 

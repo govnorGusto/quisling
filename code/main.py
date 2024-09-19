@@ -9,6 +9,9 @@ from ui.ui_text import UI_Text
 from ui.uicore.ui_canvas import UI_Canvas
 
 from core.grid import Grid
+from core.sprite_object import Sprite_object
+from player_new import Player
+from controller import Controller
 
 
 class Game:
@@ -59,6 +62,7 @@ class Game:
 
     def on_key_down(self, eventdata):
         self.turn_manager.move(eventdata.key)
+        self.controller.get_input(eventdata.key)
 
     def on_end_turn(self, eventdata):
         self.turn_manager.change_player()
@@ -81,9 +85,17 @@ class Game:
 
     def initialise_game(self):
         self.running = True
-        # self.grid.load_tmx(join("graphics", "isometric tileset", "level_test.tmx"))
-        self.grid.load_tmx(join("graphics", "isometric tileset", "grass.tmx"))
-        print(self.grid.map)
+        self.grid.load_tmx(join("graphics", "isometric tileset", "level_test.tmx"))
+        # self.grid.load_tmx(join("graphics", "isometric tileset", "grass.tmx"))
+        self.players = []
+        x = 1
+        y = 1
+        for i in range(PLAYER_AMOUNT):
+            self.players.append(Sprite_object(x, y, i))
+            x += 3
+            y += 3
+        self.controller = Controller()
+
 
     def shutdown(self):
         pygame.quit()

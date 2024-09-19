@@ -15,10 +15,9 @@ class Cell(Game_object):
 
     def on_draw(self, delta_time: float):
         if self.tile:
-            surf = pygame.display.get_surface()
             img = pygame.transform.scale(self.tile.image, (self.game.grid.tile_width * SCALE, self.game.grid.tile_width * SCALE))
             img.set_colorkey(BG_COLOR)
-            surf.blit(img, self.tile.rect)
+            self.game.display_surface.blit(img, self.tile.rect)
 
 
 class Grid(Game_object):
@@ -40,9 +39,9 @@ class Grid(Game_object):
         self.map = [[Cell() for _ in range(self.height)] for _ in range(self.width)]
 
         for x, y, surf in tmx_data.get_layer_by_name("base").tiles():
-            self.map[x][y].tile = Tile(self.grid_to_screen(y, x), surf, False)
+            self.map[y][x].tile = Tile(self.grid_to_screen(y, x), surf, False)
         for x, y, surf in tmx_data.get_layer_by_name("ground").tiles():
-            self.map[x][y].tile = Tile(self.grid_to_screen(y, x), surf, True)
+            self.map[y][x].tile = Tile(self.grid_to_screen(y, x), surf, True)
 
     def add(self, obj, x, y):
         self.map[x][y].occupants.append(obj)
@@ -58,17 +57,13 @@ class Grid(Game_object):
         if obj not in self.objects_positions:
             raise ValueError("Object is not in the grid")
 
-        current_x, current_y = self.objects_positions[obj]
-
-        new_x = current_x + dx
-        new_y = current_y + dy
-
-        if self.in_bounds(new_x, new_y):
+        if self.in_bounds(dx, dy):
+            current_x, current_y = self.objects_positions[obj]
             self.remove(obj, current_x, current_y)
-            self.add(obj, new_x, new_y)
+            self.add(obj, dx, dy)
 
     def in_bounds(self, x, y):
-        if 0 <= x < GRID_WIDTH and 0 <= y < GRID_HEIGHT:
+        if 0 <= x < self.width and 0 <= y < self.height:
             return True
         else:
             print("Invalid move: Out of grid bounds")
