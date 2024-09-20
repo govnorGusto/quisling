@@ -1,7 +1,7 @@
 from settings import *
 from sprites import *
 from spritesheet import SpriteSheet, Animation
-from actions import Move, Bash_Attack, Spinning_Attack
+from actions.get_action import Get_Action
 
 
 class Player(AnimatedSprite):
@@ -18,9 +18,9 @@ class Player(AnimatedSprite):
 
         self.recorded_moves = []
 
-        self.actions = {"move_action": Move(self), 
-                        "bash_attack": Bash_Attack(self), 
-                        "spinning_attack": Spinning_Attack(self)}
+        self.actions = {"move_action": Get_Action.MOVE.value(self), 
+                        "bash_attack": Get_Action.BASH_ATTACK.value(self), 
+                        "spinning_attack": Get_Action.SPINNING_ATTACK.value(self)}
 
         self.max_stamina = 10 
         self.stamina = self.max_stamina

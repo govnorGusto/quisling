@@ -1,6 +1,5 @@
 from settings import *
 from core.game_object import Game_object
-from actions import *
 
 class Controller(Game_object):
     def __init__(self):
