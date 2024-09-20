@@ -25,7 +25,7 @@ class Player(AnimatedSprite):
         self.max_stamina = 10 
         self.stamina = self.max_stamina
 
-        self.max_health = 10
+        self.max_health = 5
         self.health = self.max_health
 
 
@@ -119,6 +119,7 @@ class Player(AnimatedSprite):
         super().update(delta_time)
         self.active_anim
         self.animate()
+        self.check_health()
 
     def record_move(self, x, y):
         self.recorded_moves.append((x, y))
