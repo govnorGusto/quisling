@@ -75,25 +75,12 @@ class Game:
             game_object.draw(delta_time)
 
         pygame.display.update()
-        
-    ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING
-    def TMP_BASH(self, eventdata):
-        print("Bash")
-        
-    def TMP_SPIN(self, eventdata):
-        print("Spin")
-    ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING END
 
     def initialise_game(self):
         self.running = True
         self.grid.load_tmx(join("graphics", "tmx", "level_test.tmx"))
         # self.grid.load_tmx(join("graphics", "tmx", "grass.tmx"))
         self.turn_manager.get_players()
-        
-     ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING       
-        self.message_router.register_callback("Bash", self.TMP_BASH)
-        self.message_router.register_callback("Spin", self.TMP_SPIN)
-     ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING END
 
     def shutdown(self):
         pygame.quit()
