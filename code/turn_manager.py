@@ -1,7 +1,8 @@
 from settings import *
 from player import Player
 from core.game_object import Game_object
-
+from resolve import Resolve
+from uu import Error
 
 class Turn_Manager(Game_object):
     def __init__(self) -> None:
@@ -9,8 +10,8 @@ class Turn_Manager(Game_object):
 
         self.selected_player = 0
         self.player_list = []
-
-        self.resolve = False
+        self.is_resolving = False
+        self.game.message_router.register_callback("ResolveOver", self.end_resolve)
 
     def get_current_player(self):
         return self.player_list[self.selected_player]
@@ -36,11 +37,16 @@ class Turn_Manager(Game_object):
             self.selected_player += 1
         else:
             self.selected_player = 0
-            self.resolve = True
+            self.is_resolving = True
+            Resolve(self.player_list[0].stored_actions, self.player_list[1].stored_actions)
+            
         
         self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
         self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
-
-    def on_update(self, delta_time):
-        if self.resolve:
-            self.game.resolve.resolve_moves()
+        
+    def end_resolve(self, data):
+        if not self.is_resolving:
+            raise Error("End resolve event recieved while not resolving")
+        
+        self.is_resolving = False
+            

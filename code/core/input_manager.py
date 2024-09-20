@@ -26,8 +26,26 @@ attack_dict[SPINNING_ATTACK] = "spinning_attack"
 
 
 class Input_Manager(Game_object):
+    def __init__(self, game):
+        super().__init__(game)
+        self.game.message_router.register_callback("Resolve", self.block_action_input)
+        self.game.message_router.register_callback("GameOver", self.permablock)
+        self.game.message_router.register_callback(
+            "ResolveOver", self.unblock_action_input
+        )
+        self.action_input_blocked = False
+        self.action_input_blocked_permanent = False
+
+        self.game.message_router.register_callback("Bash", self.receive_bash_input)
+        self.game.message_router.register_callback("Spin", self.receive_spin_input)
+
     def process_input(self):
         for event in pygame.event.get():
+            self.game.message_router.broadcast_message(event.type, event)
+
+            if self.action_input_blocked:
+                return
+
             if event.type == pygame.KEYDOWN and event.key in InputDirectionDict:
                 self.game.message_router.broadcast_message(
                     "Move_command", InputDirectionDict[event.key]
@@ -37,4 +55,24 @@ class Input_Manager(Game_object):
                     "attack_command", attack_dict[event.key]
                 )
 
-            self.game.message_router.broadcast_message(event.type, event)
+    def block_action_input(self, data):
+        self.action_input_blocked = True
+
+    def unblock_action_input(self, data):
+        if self.action_input_blocked_permanent:
+            return
+        self.action_input_blocked = False
+
+    def permablock(self, data):
+        self.action_input_blocked = True
+        self.action_input_blocked_permanent = True
+
+    def receive_bash_input(self, blob):
+        if self.action_input_blocked:
+            return
+        self.game.message_router.broadcast_message("attack_command", "bash_attack")
+
+    def receive_spin_input(self, blob):
+        if self.action_input_blocked:
+            return
+        self.game.message_router.broadcast_message("attack_command", "spinning_attack")

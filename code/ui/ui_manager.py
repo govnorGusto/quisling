@@ -20,10 +20,8 @@ class UI_Manager(Game_object):
         make_action_menu(action_list)
         
         self.game.message_router.register_callback("HealthChanged", self.transfer_hp_callback)
-        print(self.player_hp_delegates)
         
     def transfer_hp_callback(self, eventdata : tuple):
-        print(eventdata)
         self.player_hp_delegates[eventdata[0]](eventdata[1])
 
 
@@ -95,4 +93,15 @@ def make_action_menu(actions : list):
     
     for action_tuple in actions:
         make_button(menu, action_tuple[0], action_tuple[1], action_tuple[0])
+        
+def make_game_over_menu(quit_func, losing_player_index) -> UI_Canvas:
+
+    menu = UI_Canvas(pygame.Rect(350, 100, 600, 400))
+    menu.color = UI_BACKGROUND_COLOR
+    menu.alpha = 100
+    menu.horisontal_padding = 40
+    
+    text = menu.add_child(UI_Text)
+    text.set_text(f"Game Over, player {losing_player_index + 1} has lost the game!")
+    make_button(menu, "Quit", quit_func)
 

@@ -34,11 +34,12 @@ class Action:
                 return self.directions["left"]
 
     def take_damage(self, obj, damage):
-        if self.owner.game.turn_manager.resolve:
-            obj.health -= damage
-        else:
+        if self.owner.game.turn_manager.is_resolving:
+            obj.modify_health(-damage)
             print(f"{obj} has taken {damage} damage")
-
+        else:
+            print(f"{obj} would have taken {damage} damage, but this is not real")
+                        
     def store(self, *args):
         if hasattr(self.owner, "stored_actions"):
             self.owner.store_action(self, *args)

@@ -28,6 +28,7 @@ class Player(AnimatedSprite):
 
         self.max_health = 5
         self.health = self.max_health
+        self.game.message_router.register_callback("ResolveOver", self.reset_round)
 
 
     def load(self, num):
@@ -120,12 +121,11 @@ class Player(AnimatedSprite):
         super().update(delta_time)
         self.active_anim
         self.animate()
-        self.check_health()
 
     def store_action(self, action, *args):
         self.stored_actions.append((action, [arg for arg in args]))
 
-    def reset_round(self):
+    def reset_round(self, rounddata):
         """Reset counters and set new start pos"""
         self.stored_actions.clear()
         self.start_x = self.x
@@ -149,3 +149,6 @@ class Player(AnimatedSprite):
     def modify_health(self, modification : int):
         self.health += modification
         self.game.message_router.broadcast_message("HealthChanged",(self.id, self.health))
+        
+        if self.health <= 0:
+            self.game.message_router.broadcast_message("GameOver", self.id)

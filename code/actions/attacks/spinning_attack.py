@@ -1,6 +1,8 @@
 from actions.action import Action
 from core.sprite_object import Sprite_object
 
+VFX_LIFETIME = 0.75
+
 class Spinning_Attack(Action):
     def __init__(self, owner, action_cost=1):
         super().__init__(owner, action_cost)
@@ -23,7 +25,8 @@ class Spinning_Attack(Action):
                 if x == 0 and y == 0 or not self.owner.game.grid.in_bounds(new_x, new_y):
                     continue
                 else:
-                    Sprite_object(new_x, new_y)
+                    vfx = Sprite_object(new_x, new_y)
+                    vfx.lifetime = VFX_LIFETIME
                     pos_list.append((new_x, new_y))
 
         for _, objects in self.owner.game.grid.query_positions(pos_list).items():

@@ -1,3 +1,4 @@
+from math import factorial
 from settings import *
 from turn_manager import Turn_Manager
 from core.message_router import Message_Router
@@ -21,15 +22,15 @@ class Game:
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("the quisling project")
 
+        self.message_router = Message_Router()
         self.game_objects: [Game_object] = []
         self.input_manager = Input_Manager(self)
         self.grid = Grid()
         self.turn_manager = Turn_Manager()
-        self.resolve = Resolve()
-        self.message_router = Message_Router()
         self.controller = Controller()
-
+        
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
+        self.message_router.register_callback("GameOver", self.on_game_over)
         
         UI_Manager()
 
@@ -51,6 +52,9 @@ class Game:
 
     def on_end_turn(self, eventdata):
         self.turn_manager.change_player()
+        
+    def on_game_over(self, losing_player_index : int):
+        make_game_over_menu(self.on_quit, losing_player_index)
 
     def update(self, delta_time):
         to_delete = []
@@ -107,7 +111,6 @@ class Game:
             self.draw(delta_time)
 
         self.shutdown()
-
 
 if __name__ == "__main__":
     game = Game()
