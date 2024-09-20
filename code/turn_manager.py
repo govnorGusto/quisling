@@ -31,18 +31,16 @@ class Turn_Manager(Game_object):
 
     def change_player(self):
         """change player and triggers action round"""
-        print(self.player_list[self.selected_player].stored_actions)
-        self.player_list[self.selected_player].reset_position()
+        self.get_current_player().reset_position()
         if self.selected_player < len(self.player_list) -1:
             self.selected_player += 1
         else:
             self.selected_player = 0
-            # FIXME:Need to add resole logic
-            # self.resolve = True
+            self.resolve = True
         
         self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
         self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
 
     def on_update(self, delta_time):
         if self.resolve:
-            self.game.resolve
+            self.game.resolve.resolve_moves()

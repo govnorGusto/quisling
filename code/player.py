@@ -20,6 +20,7 @@ class Player(AnimatedSprite):
         self.actions = {"move_action": Get_Action.MOVE.value(self), 
                         "bash_attack": Get_Action.BASH_ATTACK.value(self), 
                         "spinning_attack": Get_Action.SPINNING_ATTACK.value(self)}
+        
         self.stored_actions = []
 
         self.max_stamina = 10 
@@ -122,21 +123,21 @@ class Player(AnimatedSprite):
         self.check_health()
 
     def store_action(self, action, *args):
-        self.stored_actions.append({action: [arg for arg in args]})
+        self.stored_actions.append((action, [arg for arg in args]))
 
     def reset_round(self):
         """Reset counters and set new start pos"""
-        self.recorded_moves = []
-        self.start_x = self.rect.x
-        self.start_y = self.rect.y
-        self.stamina = self.max_stamina
+        self.stored_actions.clear()
+        self.start_x = self.x
+        self.start_y = self.y
+        self.modify_stamina(self.max_stamina-self.stamina)
 
     def reset_position(self):
         """Move player back to start position of the round"""
         self.x = self.start_x
         self.y = self.start_y
         self.rect.topleft = self.game.grid.grid_to_screen(self.x, self.y)
-        self.stamina = self.max_stamina
+        self.modify_stamina(self.max_stamina-self.stamina)
 
     def on_draw(self, delta_time: float):
         self.game.display_surface.blit(self.image, self.rect.move(self.draw_offset))

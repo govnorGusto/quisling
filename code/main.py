@@ -11,6 +11,7 @@ from controller import Controller
 
 from ui.ui_manager import construct_ui_element
 from ui.ui_definitions import UI_NEXT_BUTTON
+from resolve import Resolve
 
 
 class Game:
@@ -24,6 +25,7 @@ class Game:
         self.input_manager = Input_Manager(self)
         self.grid = Grid()
         self.turn_manager = Turn_Manager()
+        self.resolve = Resolve()
         self.message_router = Message_Router()
         self.controller = Controller()
 

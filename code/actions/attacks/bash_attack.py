@@ -26,6 +26,3 @@ class Bash_Attack(Action):
 
         self.owner.modify_stamina(-self.action_cost)
         self.store()
-
-    def __repr__(self):
-        return "bash_attack"

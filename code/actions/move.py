@@ -51,6 +51,3 @@ class Move(Action):
             else:
                 results[direction] = False
         return results
-
-    def __repr__(self):
-        return "move_action"
