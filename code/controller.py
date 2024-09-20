@@ -7,8 +7,13 @@ class Controller(Game_object):
         super().__init__()
 
         self.game.message_router.register_callback("Move_command", self.receive_move_input)
+        self.game.message_router.register_callback("attack_command", self.receive_attack_input)
     
     def receive_move_input(self, movedata):
         self.game.turn_manager.get_current_player().actions["move_action"].execute(movedata[0], movedata[1])
         # self.move.execute(self.game.turn_manager.get_current_player(), movedata[0], movedata[1])
         pass
+
+    def receive_attack_input(self, data):
+        if data == "melee":
+            self.game.turn_manager.get_current_player().actions["melee_attack_action"].execute()

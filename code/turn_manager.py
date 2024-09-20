@@ -1,6 +1,5 @@
 from settings import *
 from player import Player
-from actions import MoveAction
 from core.game_object import Game_object
 
 
@@ -19,8 +18,8 @@ class Turn_Manager(Game_object):
 
     def get_players(self):
         """add list of players"""
-        x = 0
-        y = 0
+        x = 1
+        y = 1
         for i in range(PLAYER_AMOUNT):
             p = Player(x, y, i)
             self.player_list.append(p)
@@ -43,7 +42,8 @@ class Turn_Manager(Game_object):
             for player in self.player_list:
                 try:
                     dx, dy = player.recorded_moves[self.current_round]
-                    MoveAction(player, dx, dy)
+                    print(dx, dy)
+                    print("more coming soon")
                 except:
                     continue
         else:

@@ -1,9 +1,11 @@
+from core.sprite_object import Sprite_object
 
 class Action:
     def __init__(self, owner, action_cost:int):
 
         self.owner = owner
         self.action_cost = action_cost
+        self.directions = {"up": (0, -1), "down": (0, 1), "left": (-1, 0), "right": (1, 0)}
     
     def can_execute(self):
         pass
@@ -13,6 +15,17 @@ class Action:
 
     def try_execute(self):
         pass
+
+    def get_direction(self, direction):
+        match direction:
+            case 0:
+                return self.directions["up"]
+            case 1:
+                return self.directions["right"]
+            case 2:
+                return self.directions["down"]
+            case 3:
+                return self.directions["left"]
 
 
 class Move(Action):
@@ -52,10 +65,11 @@ class Move(Action):
                 if dy < 0:
                     self.owner.facing = 0
 
+                print(self.owner.facing)
+
     def try_execute(self):
-        directions = {"up": (0, -1), "down": (0, 1), "left": (-1, 0), "right": (1, 0)}
         results = {}
-        for direction, (dx, dy) in directions.items():
+        for direction, (dx, dy) in self.directions.items():
             new_x = self.owner.x + dx
             new_y = self.owner.y + dy
             if self.can_execute(new_x, new_y):
@@ -66,43 +80,21 @@ class Move(Action):
     
     def __repr__(self):
         return "Move_action"
+    
 
+class MeleeAttack(Action):
+    def __init__(self, owner, action_cost=1):
+        super().__init__(owner, action_cost)
 
-
-class MoveAction(Action):
-    def __init__(self, player, dx, dy, action_cost=1):
-        super().__init__(action_cost)
-        self.player = player
-        self.dx = dx
-        self.dy = dy
-        self.execute()
-
+    def can_execute(self):
+        if self.owner.stamina < self.action_cost:
+            print("Not enough stamina")
+            return False
+        return True
+    
     def execute(self):
-        """Execute the move action."""
-        self.player.rect.x += self.dx
-        self.player.rect.y += self.dy
-        if self.dx > 0:
-            self.player.facing = 1
-        if self.dx < 0:
-            self.player.facing = 3
-        if self.dy > 0:
-            self.player.facing = 2
-        if self.dy < 0:
-            self.player.facing = 0
+        facing = self.get_direction(self.owner.facing)
+        attack = Sprite_object(self.owner.x + facing[0], self.owner.y + facing[1])
+        self.owner.stamina -= self.action_cost
 
 
-class MeleeAttackAction(Action):
-    def __init__(self, player, target, attack_damage=1, action_cost=1):
-        super().__init__(action_cost)
-        self.player = player
-        self.target = target
-        self.attack_damage = attack_damage
-        self.execute()
-
-    def execute(self):
-        """Execute a basic melee attack without animation."""
-        self.target.health -= self.attack_damage
-        self.player.action_points -= self.action_cost
-
-    def execute_with_animation(self):
-        pass
