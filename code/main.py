@@ -90,7 +90,7 @@ class Game:
      ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING       
         self.message_router.register_callback("Bash", self.TMP_BASH)
         self.message_router.register_callback("Spin", self.TMP_SPIN)
-    ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING END
+     ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING END
 
     def shutdown(self):
         pygame.quit()
