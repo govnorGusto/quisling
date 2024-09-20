@@ -1,6 +1,7 @@
 from settings import *
 from sprites import *
 from spritesheet import SpriteSheet, Animation
+from actions import Move
 
 
 class Player(AnimatedSprite):
@@ -15,9 +16,11 @@ class Player(AnimatedSprite):
 
         self.facing = 2
 
-        self.number_of_moves = 0
-        self.max_moves = 10
         self.recorded_moves = []
+
+        self.actions = {"move_action": Move(self)}
+        self.max_stamina = 10 
+        self.stamina = self.max_stamina
 
     def load(self, num):
         boar_SE = SpriteSheet(
@@ -118,7 +121,7 @@ class Player(AnimatedSprite):
         self.recorded_moves = []
         self.start_x = self.rect.x
         self.start_y = self.rect.y
-        self.number_of_moves = 0
+        self.stamina = self.max_stamina
 
     def reset_position(self):
         """Move player back to start position of the round"""

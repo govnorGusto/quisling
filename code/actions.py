@@ -1,50 +1,62 @@
-import abc
-from core.game_object import Game_object
 
-# class Action(abc.ABC):
-#     def __init__(self, action_cost):
-#         self.action_cost = action_cost
+class Action:
+    def __init__(self, owner, action_cost:int):
 
-#     @abc.abstractmethod
-#     def execute(self):
-#         pass
-
-
-class Action(Game_object):
-    def __init__(self, action_cost):
-        super().__init__()
-
+        self.owner = owner
         self.action_cost = action_cost
+    
+    def can_execute(self):
+        pass
 
     def execute(self):
         pass
 
+    def try_execute(self):
+        pass
+
 
 class Move(Action):
-    def __init__(self, action_cost=1):
-        super().__init__(action_cost)
+    def __init__(self, owner, action_cost=1):
+        super().__init__(owner, action_cost)
 
-    def execute(self, obj, dx, dy):
-        if hasattr(obj, "stamina"):
-            if obj.stamina < self.action_cost:
+    def can_execute(self, dx, dy):
+        if hasattr(self.owner, "stamina"):
+            if self.owner.stamina < self.action_cost:
                 print("Not enough stamina")
-            else:
-                obj.stamina -= self.action_cost
-                self.move(obj, dx, dy)
-        else:
-            self.move(obj, dx, dy)
-
-    def move(self, obj, dx, dy):
-        new_x = obj.x + dx
-        new_y = obj.y + dy
-        if (
-            self.game.grid.in_bounds(new_x, new_y)
-            and self.game.grid.map[new_x][new_y].tile.walkable
+                return False
+        if not (
+            self.owner.game.grid.in_bounds(dx, dy)
+            and self.owner.game.grid.map[dx][dy].tile.walkable
         ):
-            obj.x = new_x
-            obj.y = new_y
-            self.game.grid.move(obj, obj.x, obj.y)
-            obj.rect.topleft = self.game.grid.grid_to_screen(obj.x, obj.y)
+            return False
+        return True
+
+    def execute(self, dx, dy):
+        new_x = self.owner.x + dx
+        new_y = self.owner.y + dy
+        if self.can_execute(new_x, new_y):
+            self.owner.x = new_x
+            self.owner.y = new_y
+            self.owner.game.grid.move(self.owner, self.owner.x, self.owner.y)
+            self.owner.rect.topleft = self.owner.game.grid.grid_to_screen(self.owner.x, self.owner.y)
+            if hasattr(self.owner, "stamina"):
+                self.owner.stamina -= self.action_cost
+
+    def try_execute(self):
+        directions = {"up": (0, -1), "down": (0, 1), "left": (-1, 0), "right": (1, 0)}
+        results = {}
+        for direction, (dx, dy) in directions.items():
+            new_x = self.owner.x + dx
+            new_y = self.owner.y + dy
+            if self.can_execute(new_x, new_y):
+                results[direction] = True
+            else:
+                results[direction] = False
+        return results
+    
+    def __repr__(self):
+        return "Move_action"
+
 
 
 class MoveAction(Action):
