@@ -2,7 +2,7 @@ from actions.action import Action
 from core.sprite_object import Sprite_object
 
 class Bash_Attack(Action):
-    def __init__(self, owner, action_cost=1):
+    def __init__(self, owner, action_cost=2):
         super().__init__(owner, action_cost)
         self.damage = 2
 

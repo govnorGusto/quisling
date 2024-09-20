@@ -23,7 +23,7 @@ class Player(AnimatedSprite):
         
         self.stored_actions = []
 
-        self.max_stamina = 10 
+        self.max_stamina = 5
         self.stamina = self.max_stamina
 
         self.max_health = 5

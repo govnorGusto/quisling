@@ -4,7 +4,7 @@ from core.sprite_object import Sprite_object
 VFX_LIFETIME = 0.75
 
 class Spinning_Attack(Action):
-    def __init__(self, owner, action_cost=1):
+    def __init__(self, owner, action_cost=3):
         super().__init__(owner, action_cost)
         self.damage = 1
 
