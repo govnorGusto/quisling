@@ -39,6 +39,7 @@ class Move(Action):
                 self.owner.facing = 2
             if dy < 0:
                 self.owner.facing = 0
+        self.store(dx, dy)
 
     def try_execute(self):
         results = {}
@@ -52,4 +53,4 @@ class Move(Action):
         return results
 
     def __repr__(self):
-        return "Move_action"
+        return "move_action"

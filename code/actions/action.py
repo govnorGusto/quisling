@@ -38,3 +38,7 @@ class Action:
             obj.health -= damage
         else:
             print(f"{obj} has taken {damage} damage")
+
+    def store(self, *args):
+        if hasattr(self.owner, "stored_actions"):
+            self.owner.store_action(self, *args)

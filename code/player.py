@@ -16,11 +16,11 @@ class Player(AnimatedSprite):
 
         self.facing = 2
 
-        self.recorded_moves = []
 
         self.actions = {"move_action": Get_Action.MOVE.value(self), 
                         "bash_attack": Get_Action.BASH_ATTACK.value(self), 
                         "spinning_attack": Get_Action.SPINNING_ATTACK.value(self)}
+        self.stored_actions = []
 
         self.max_stamina = 10 
         self.stamina = self.max_stamina
@@ -121,8 +121,8 @@ class Player(AnimatedSprite):
         self.animate()
         self.check_health()
 
-    def record_move(self, x, y):
-        self.recorded_moves.append((x, y))
+    def store_action(self, action, *args):
+        self.stored_actions.append({action: [arg for arg in args]})
 
     def reset_round(self):
         """Reset counters and set new start pos"""

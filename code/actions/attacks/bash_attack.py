@@ -25,6 +25,7 @@ class Bash_Attack(Action):
                         self.take_damage(obj, self.damage)
 
         self.owner.modify_stamina(-self.action_cost)
+        self.store()
 
     def __repr__(self):
         return "bash_attack"
