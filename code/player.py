@@ -140,3 +140,11 @@ class Player(AnimatedSprite):
 
     def on_draw(self, delta_time: float):
         self.game.display_surface.blit(self.image, self.rect.move(self.draw_offset))
+        
+    def modify_stamina(self, modification : int):
+        self.stamina += modification
+        self.game.message_router.broadcast_message("StaminaChanged", self.stamina)
+        
+    def modify_health(self, modification : int):
+        self.health += modification
+        self.game.message_router.broadcast_message("HealthChanged", self.health)

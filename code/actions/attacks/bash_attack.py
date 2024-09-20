@@ -23,7 +23,7 @@ class Bash_Attack(Action):
                     if hasattr(obj, "health"):
                         self.take_damage(obj, self.damage)
 
-        self.owner.stamina -= self.action_cost
+        self.owner.modify_stamina(-self.action_cost)
 
     def __repr__(self):
         return "bash_attack"

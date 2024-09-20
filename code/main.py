@@ -4,7 +4,7 @@ from core.message_router import Message_Router
 from core.input_manager import Input_Manager
 from core.game_object import Game_object
 
-from ui.ui_manager import make_turn_menu
+from ui.ui_manager import *
 
 from core.grid import Grid
 from controller import Controller
@@ -28,8 +28,9 @@ class Game:
         self.controller = Controller()
 
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
-
-        make_turn_menu(self.turn_manager.change_player, self.on_quit)    
+        
+        make_turn_menu(self.turn_manager.change_player, self.on_quit)
+        top_bar_texts = make_top_bar(self.message_router)
 
     def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):

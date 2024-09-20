@@ -51,3 +51,20 @@ def make_turn_menu(end_turn_func, quit_func) -> UI_Canvas:
     button.click_callbacks.append(quit_func)
     text = button.add_child(UI_Text)
     text.text = "Quit"
+    
+def make_top_bar(message_router) -> list:
+    bar = UI_Canvas(pygame.Rect(-200, 0, WINDOW_WIDTH + 200, 50))
+    bar.color = UI_BACKGROUND_COLOR
+    bar.stacking_mode = EStackingMode.HORIZONTAL
+    bar.horisontal_padding = 220
+    
+    text1 = bar.add_child(UI_Text)
+    text1.text = "Stamina Remaining: "
+    message_router.register_callback("StaminaChanged", text1.set_suffix)
+    
+    text2 = bar.add_child(UI_Text)
+    text2.text = "Current Player: "
+    message_router.register_callback("PlayerChanged", text2.set_suffix)
+    
+    return [text1, text2]
+

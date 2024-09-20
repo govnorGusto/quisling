@@ -26,7 +26,7 @@ class Move(Action):
             self.owner.rect.topleft = self.owner.game.grid.grid_to_screen(
                 self.owner.x, self.owner.y)
             if hasattr(self.owner, "stamina"):
-                self.owner.stamina -= self.action_cost
+                self.owner.modify_stamina(-self.action_cost)
 
                 # Set the direction of the character
                 if dx > 0:

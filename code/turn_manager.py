@@ -25,6 +25,9 @@ class Turn_Manager(Game_object):
             self.player_list.append(p)
             x += 1
             y += 1
+            
+        self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
+        self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
 
     def change_player(self):
         """change player and triggers action round"""
@@ -35,6 +38,9 @@ class Turn_Manager(Game_object):
             self.selected_player = 0
             # FIXME:Need to add resole logic
             # self.resolve = True
+        
+        self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
+        self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
 
     def apply_all_moves(self):
         """make all the players moves at the same time"""
