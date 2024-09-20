@@ -65,8 +65,6 @@ class Move(Action):
                 if dy < 0:
                     self.owner.facing = 0
 
-                print(self.owner.facing)
-
     def try_execute(self):
         results = {}
         for direction, (dx, dy) in self.directions.items():
@@ -82,7 +80,7 @@ class Move(Action):
         return "Move_action"
     
 
-class MeleeAttack(Action):
+class Bash_Attack(Action):
     def __init__(self, owner, action_cost=1):
         super().__init__(owner, action_cost)
 
@@ -96,5 +94,30 @@ class MeleeAttack(Action):
         facing = self.get_direction(self.owner.facing)
         attack = Sprite_object(self.owner.x + facing[0], self.owner.y + facing[1])
         self.owner.stamina -= self.action_cost
+    
+    def __repr__(self):
+        return "bash_attack"
 
+class Spinning_Attack(Action):
+    def __init__(self, owner, action_cost=1):
+        super().__init__(owner, action_cost)
+
+    def can_execute(self):
+        if self.owner.stamina < self.action_cost:
+            print("Not enough stamina")
+            return False
+        return True
+    
+    def execute(self):
+        val = [-1, 0, 1]
+        for x in val:
+            for y in val:
+                if x == 0 and y == 0:
+                    continue
+                else:
+                    Sprite_object(self.owner.x + x, self.owner.y + y)
+        self.owner.stamina -= self.action_cost
+
+    def __repr__(self):
+        return "spinning_attack"
 

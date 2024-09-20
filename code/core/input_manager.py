@@ -5,7 +5,9 @@ INPUT_UP = pygame.K_w
 INPUT_DOWN = pygame.K_s
 INPUT_LEFT = pygame.K_a
 INPUT_RIGHT = pygame.K_d
-SPACE = pygame.K_SPACE
+BASH_ATTACK = pygame.K_b
+SPINNING_ATTACK = pygame.K_m
+
 
 InputDirectionDict = {}
 InputDirectionDict[INPUT_UP] = (0, -1)
@@ -14,7 +16,8 @@ InputDirectionDict[INPUT_LEFT] = (-1, 0)
 InputDirectionDict[INPUT_RIGHT] = (1, 0)
 
 attack_dict = {}
-attack_dict[SPACE] = "melee"
+attack_dict[BASH_ATTACK] = "bash_attack"
+attack_dict[SPINNING_ATTACK] = "spinning_attack"
 
 
 class Input_Manager(Game_object):

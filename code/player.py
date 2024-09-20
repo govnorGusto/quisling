@@ -1,7 +1,7 @@
 from settings import *
 from sprites import *
 from spritesheet import SpriteSheet, Animation
-from actions import Move, MeleeAttack
+from actions import Move, Bash_Attack, Spinning_Attack
 
 
 class Player(AnimatedSprite):
@@ -18,7 +18,9 @@ class Player(AnimatedSprite):
 
         self.recorded_moves = []
 
-        self.actions = {"move_action": Move(self), "melee_attack_action": MeleeAttack(self)}
+        self.actions = {"move_action": Move(self), 
+                        "bash_attack": Bash_Attack(self), 
+                        "spinning_attack": Spinning_Attack(self)}
 
         self.max_stamina = 10 
         self.stamina = self.max_stamina
