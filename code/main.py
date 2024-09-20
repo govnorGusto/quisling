@@ -4,9 +4,7 @@ from core.message_router import Message_Router
 from core.input_manager import Input_Manager
 from core.game_object import Game_object
 
-from ui.ui_button import UI_Button
-from ui.ui_text import UI_Text
-from ui.uicore.ui_canvas import UI_Canvas
+from ui.ui_manager import make_turn_menu
 
 from core.grid import Grid
 from controller import Controller
@@ -31,18 +29,7 @@ class Game:
 
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
 
-        ### TEMP BUTTON ###
-        self.button_canvas = UI_Canvas(
-            pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 120, 200, 100)
-        )
-        self.button_canvas.color = (100, 100, 100)
-        button = self.button_canvas.add_child(UI_Button)
-        button.click_callbacks.append(self.turn_manager.change_player)
-        text = button.add_child(UI_Text)
-        text.text = "End Turn"
-        ### TEMP BUTTON END ###
-
-        # construct_ui_element(UI_NEXT_BUTTON)
+        make_turn_menu(self.turn_manager.change_player, self.on_quit)    
 
     def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):
@@ -57,7 +44,7 @@ class Game:
     def process_input(self):
         self.input_manager.process_input()
 
-    def on_quit(self, eventdata):
+    def on_quit(self, eventdata=0):
         self.running = False
 
     def on_end_turn(self, eventdata):
