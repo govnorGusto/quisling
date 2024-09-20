@@ -13,7 +13,8 @@ class Spinning_Attack(Action):
         return True
 
     def execute(self):
-        self.can_execute()
+        if not self.can_execute():
+            return
         val = [-1, 0, 1]
         pos_list = []
         for x in val:

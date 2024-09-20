@@ -19,24 +19,26 @@ class Move(Action):
     def execute(self, dx, dy):
         new_x = self.owner.x + dx
         new_y = self.owner.y + dy
-        if self.can_execute(new_x, new_y):
-            self.owner.x = new_x
-            self.owner.y = new_y
-            self.owner.game.grid.move(self.owner, self.owner.x, self.owner.y)
-            self.owner.rect.topleft = self.owner.game.grid.grid_to_screen(
-                self.owner.x, self.owner.y)
-            if hasattr(self.owner, "stamina"):
-                self.owner.modify_stamina(-self.action_cost)
+        if not self.can_execute(new_x, new_y):
+            return
+        
+        self.owner.x = new_x
+        self.owner.y = new_y
+        self.owner.game.grid.move(self.owner, self.owner.x, self.owner.y)
+        self.owner.rect.topleft = self.owner.game.grid.grid_to_screen(
+            self.owner.x, self.owner.y)
+        if hasattr(self.owner, "stamina"):
+            self.owner.modify_stamina(-self.action_cost)
 
-                # Set the direction of the character
-                if dx > 0:
-                    self.owner.facing = 1
-                if dx < 0:
-                    self.owner.facing = 3
-                if dy > 0:
-                    self.owner.facing = 2
-                if dy < 0:
-                    self.owner.facing = 0
+            # Set the direction of the character
+            if dx > 0:
+                self.owner.facing = 1
+            if dx < 0:
+                self.owner.facing = 3
+            if dy > 0:
+                self.owner.facing = 2
+            if dy < 0:
+                self.owner.facing = 0
 
     def try_execute(self):
         results = {}

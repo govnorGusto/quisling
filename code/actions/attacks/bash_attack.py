@@ -13,7 +13,8 @@ class Bash_Attack(Action):
         return True
 
     def execute(self):
-        self.can_execute()
+        if not self.can_execute():
+            return
         facing = self.get_direction(self.owner.facing)
         new_x, new_y = self.owner.x + facing[0], self.owner.y + facing[1]
         if self.owner.game.grid.in_bounds(new_x, new_y):
