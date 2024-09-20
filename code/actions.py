@@ -41,6 +41,15 @@ class Move(Action):
             self.owner.rect.topleft = self.owner.game.grid.grid_to_screen(self.owner.x, self.owner.y)
             if hasattr(self.owner, "stamina"):
                 self.owner.stamina -= self.action_cost
+            if hasattr(self.owner, "facing"):
+                if dx > 0:
+                    self.owner.facing = 1
+                if dx < 0:
+                    self.owner.facing = 3
+                if dy > 0:
+                    self.owner.facing = 2
+                if dy < 0:
+                    self.owner.facing = 0
 
     def try_execute(self):
         directions = {"up": (0, -1), "down": (0, 1), "left": (-1, 0), "right": (1, 0)}
