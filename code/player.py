@@ -9,7 +9,7 @@ class Player(AnimatedSprite):
         super().__init__(x, y)
 
         self.image = pygame.Surface((TILESIZE, TILESIZE))
-
+        self.id = num
         self.draw_offset = (0, 0)
         self.load(num)
         self.image = self.active_anim.get_frame(0)
@@ -147,4 +147,4 @@ class Player(AnimatedSprite):
         
     def modify_health(self, modification : int):
         self.health += modification
-        self.game.message_router.broadcast_message("HealthChanged", self.health)
+        self.game.message_router.broadcast_message("HealthChanged",(self.id, self.health))

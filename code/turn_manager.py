@@ -21,12 +21,13 @@ class Turn_Manager(Game_object):
         y = 1
         for i in range(PLAYER_AMOUNT):
             p = Player(x, y, i)
+            self.game.message_router.broadcast_message("HealthChanged" , (i, p.health))
             self.player_list.append(p)
             x += 1
             y += 1
             
-        self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
         self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
+        self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
 
     def change_player(self):
         """change player and triggers action round"""
