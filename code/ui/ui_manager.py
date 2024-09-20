@@ -1,3 +1,4 @@
+from re import S
 import pygame
 from settings import *
 
@@ -8,9 +9,22 @@ from ui.ui_text import UI_Text
 
 UI_BACKGROUND_COLOR = (100, 100, 100)
 
-# class UI_Manager(Game_object):
-#     def __init__(self):
-#         super().__init__(self)
+class UI_Manager(Game_object):
+    def __init__(self):
+        super().__init__(self)
+        
+        make_turn_menu(self.game.turn_manager.change_player, self.game.on_quit)
+        self.player_hp_delegates = make_top_bar(self.game.message_router)
+        
+        action_list = [("Bash", self.game.message_router.broadcast_message),("Spin", self.game.message_router.broadcast_message)]
+        make_action_menu(action_list)
+        
+        self.game.message_router.register_callback("HealthChanged", self.transfer_hp_callback)
+        print(self.player_hp_delegates)
+        
+    def transfer_hp_callback(self, eventdata : tuple):
+        print(eventdata)
+        self.player_hp_delegates[eventdata[0]](eventdata[1])
 
 
 def construct_ui_element(indata: UIDefinitionData, parent=0) -> UI_Canvas:
@@ -57,9 +71,15 @@ def make_top_bar(message_router) -> list:
     
     text2 = bar.add_child(UI_Text)
     text2.text = "Current Player: "
-    message_router.register_callback("PlayerChanged", text2.set_suffix)
+    message_router.register_callback("PlayerChanged", text2.set_suffix)    
     
-    return [text1, text2]
+    text3 = bar.add_child(UI_Text)
+    text3.text = "Player 1 HP :"
+    
+    text4 = bar.add_child(UI_Text)
+    text4.text = "Player 2 HP : "
+
+    return [text3.set_suffix, text4.set_suffix]
 
 def make_button(parent, button_text, func, payload = None):
     button = parent.add_child(UI_Button)

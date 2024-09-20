@@ -29,10 +29,7 @@ class Game:
 
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
         
-        make_turn_menu(self.turn_manager.change_player, self.on_quit)
-        top_bar_texts = make_top_bar(self.message_router)
-        action_list = [("Bash", self.message_router.broadcast_message),("Spin", self.message_router.broadcast_message)]
-        make_action_menu(action_list)
+        UI_Manager()
 
     def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):
