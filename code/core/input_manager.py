@@ -10,10 +10,15 @@ SPINNING_ATTACK = pygame.K_m
 
 
 InputDirectionDict = {}
-InputDirectionDict[INPUT_UP] = (0, -1)
-InputDirectionDict[INPUT_DOWN] = (0, 1)
-InputDirectionDict[INPUT_LEFT] = (-1, 0)
-InputDirectionDict[INPUT_RIGHT] = (1, 0)
+# InputDirectionDict[INPUT_UP] = (0, -1)
+# InputDirectionDict[INPUT_DOWN] = (0, 1)
+# InputDirectionDict[INPUT_LEFT] = (-1, 0)
+# InputDirectionDict[INPUT_RIGHT] = (1, 0)
+
+InputDirectionDict[INPUT_UP] = (1, 0)
+InputDirectionDict[INPUT_DOWN] = (-1, 0)
+InputDirectionDict[INPUT_LEFT] = (0, -1)
+InputDirectionDict[INPUT_RIGHT] = (0, 1)
 
 attack_dict = {}
 attack_dict[BASH_ATTACK] = "bash_attack"
