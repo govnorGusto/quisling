@@ -49,9 +49,6 @@ class Game_object:
         self.is_garbage = False
         self.lifetime = -1
         
-    def __del__(self):
-        print("Deleting: " + str(self))
-        
     def mark_for_delete(self):
         self.is_garbage = True
         for comp in self.components:
