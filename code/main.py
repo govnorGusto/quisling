@@ -49,6 +49,10 @@ class Game:
             print("ERROR: Do not add non Game Object derived objects as Game objects")
             return
         self.game_objects.append(game_object)
+        
+    def delete_game_object(self, game_object):
+        self.game_objects.remove(game_object)
+        del game_object
 
     def process_input(self):
         self.input_manager.process_input()
@@ -60,8 +64,17 @@ class Game:
         self.turn_manager.change_player()
 
     def update(self, delta_time):
+        to_delete = []
+        
         for game_object in self.game_objects:
             game_object.update(delta_time)
+            if game_object.is_garbage:
+                to_delete.append(game_object)
+
+        for game_object in to_delete:
+            self.game_objects.remove(game_object)
+            del game_object
+                
 
 
     def draw(self, delta_time):
@@ -84,7 +97,8 @@ class Game:
 
     def run(self):
         self.initialise_game()
-
+        total_runtime = 0
+        
         while self.running:
             delta_time = self.clock.tick(FPS) / 1000
 

@@ -45,6 +45,16 @@ class Clickable(Component):
             return
         for callback in self.on_release:
             callback()
+            
+    def mark_for_delete(self):
+        self.get_game().message_router.clear_callback(self.OnMouseMove)
+        self.get_game().message_router.clear_callback(self.OnMouseDown)
+        self.get_game().message_router.clear_callback(self.OnMouseUp)
+        self.on_click.clear()
+        self.on_release.clear()
+        self.on_mouse_enter.clear()
+        self.on_mouse_exit.clear()
+        super().mark_for_delete()
         
 
 

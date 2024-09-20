@@ -85,6 +85,13 @@ class UI_Canvas(Game_object):
             width = self.element_width
             height = self.rect.height - self.vertical_padding * 2
             return pygame.Rect(left, top, width, height)
+        
+    def mark_for_delete(self):
+        super().mark_for_delete()
+        for child in self._child_canvases:
+            child.mark_for_delete()
+        self._child_canvases.clear()
+        
 
     ### FOR EASY DEBUGGING
     def print(self) -> None:
