@@ -42,15 +42,8 @@ def make_turn_menu(end_turn_func, quit_func) -> UI_Canvas:
     menu = UI_Canvas(pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 200, 200, 300))
     menu.color = UI_BACKGROUND_COLOR
     
-    button = menu.add_child(UI_Button)
-    button.click_callbacks.append(end_turn_func)
-    text = button.add_child(UI_Text)
-    text.text = "End Turn"    
-    
-    button = menu.add_child(UI_Button)
-    button.click_callbacks.append(quit_func)
-    text = button.add_child(UI_Text)
-    text.text = "Quit"
+    make_button(menu, "End Turn", end_turn_func)
+    make_button(menu, "Quit", quit_func)
     
 def make_top_bar(message_router) -> list:
     bar = UI_Canvas(pygame.Rect(-200, 0, WINDOW_WIDTH + 200, 50))
@@ -67,4 +60,19 @@ def make_top_bar(message_router) -> list:
     message_router.register_callback("PlayerChanged", text2.set_suffix)
     
     return [text1, text2]
+
+def make_button(parent, button_text, func, payload = None):
+    button = parent.add_child(UI_Button)
+    button.click_callbacks.append(func)
+    button.callback_payload = payload
+    
+    text = button.add_child(UI_Text)
+    text.text = button_text 
+
+def make_action_menu(actions : list):
+    menu = UI_Canvas(pygame.Rect(20, WINDOW_HEIGHT - 200, 200, 300))
+    menu.color = UI_BACKGROUND_COLOR
+    
+    for action_tuple in actions:
+        make_button(menu, action_tuple[0], action_tuple[1], action_tuple[0])
 

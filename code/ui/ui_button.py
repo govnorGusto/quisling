@@ -15,8 +15,7 @@ class UI_Button(UI_Canvas):
         clickable.on_click.append(self.mouse_click)
         clickable.on_release.append(self.mouse_release)
 
-        ### TODO: This is not really a good spot for color definitions,
-        ###       we want a proper set-method, Automate shadings
+        self.callback_payload = None    
         self.color_default = (175, 175, 175)
         self.color_hover = (155, 155, 155)
         self.color_click = (15, 15, 15)
@@ -33,7 +32,10 @@ class UI_Button(UI_Canvas):
     def mouse_click(self):
         self.color = self.color_click
         for callback in self.click_callbacks:
-            callback()
+            if self.callback_payload == None:
+                callback()
+            else:
+                callback(self.callback_payload)
 
     def mouse_release(self):
         self.color = self.color_hover

@@ -31,6 +31,8 @@ class Game:
         
         make_turn_menu(self.turn_manager.change_player, self.on_quit)
         top_bar_texts = make_top_bar(self.message_router)
+        action_list = [("Bash", self.message_router.broadcast_message),("Spin", self.message_router.broadcast_message)]
+        make_action_menu(action_list)
 
     def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):
@@ -63,8 +65,6 @@ class Game:
             self.game_objects.remove(game_object)
             del game_object
                 
-
-
     def draw(self, delta_time):
         self.display_surface.fill(BG_COLOR)
 
@@ -72,12 +72,25 @@ class Game:
             game_object.draw(delta_time)
 
         pygame.display.update()
+        
+    ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING
+    def TMP_BASH(self, eventdata):
+        print("Bash")
+        
+    def TMP_SPIN(self, eventdata):
+        print("Spin")
+    ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING END
 
     def initialise_game(self):
         self.running = True
         self.grid.load_tmx(join("graphics", "tmx", "level_test.tmx"))
         # self.grid.load_tmx(join("graphics", "tmx", "grass.tmx"))
         self.turn_manager.get_players()
+        
+     ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING       
+        self.message_router.register_callback("Bash", self.TMP_BASH)
+        self.message_router.register_callback("Spin", self.TMP_SPIN)
+    ### ACTION BINDING EXAMPLE, REMOVE AFTER ACTUAL BINDING END
 
     def shutdown(self):
         pygame.quit()
