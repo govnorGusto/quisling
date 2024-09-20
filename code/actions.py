@@ -28,6 +28,12 @@ class Action:
                 return self.directions["down"]
             case 3:
                 return self.directions["left"]
+    
+    def take_damage(self, obj, damage):
+        if self.owner.game.turn_manager.resolve:
+            obj.health -= damage
+        else:
+            print(f"{obj} has taken {damage} damage")
 
 
 class Move(Action):
@@ -86,6 +92,7 @@ class Move(Action):
 class Bash_Attack(Action):
     def __init__(self, owner, action_cost=1):
         super().__init__(owner, action_cost)
+        self.damage = 2
 
     def can_execute(self):
         if self.owner.stamina < self.action_cost:
@@ -96,8 +103,14 @@ class Bash_Attack(Action):
     def execute(self):
         self.can_execute()
         facing = self.get_direction(self.owner.facing)
-        if self.owner.game.grid.in_bounds(self.owner.x + facing[0], self.owner.y + facing[1]):
-            Sprite_object(self.owner.x + facing[0], self.owner.y + facing[1])
+        new_x, new_y = self.owner.x + facing[0], self.owner.y + facing[1]
+        if self.owner.game.grid.in_bounds(new_x, new_y):
+            Sprite_object(new_x, new_y)
+            for _, objects in self.owner.game.grid.query_positions([(new_x, new_y)]).items():
+                for obj in objects:
+                    if hasattr(obj, "health"):
+                        self.take_damage(obj, self.damage)
+
         self.owner.stamina -= self.action_cost
 
     def __repr__(self):
@@ -107,6 +120,7 @@ class Bash_Attack(Action):
 class Spinning_Attack(Action):
     def __init__(self, owner, action_cost=1):
         super().__init__(owner, action_cost)
+        self.damage = 1
 
     def can_execute(self):
         if self.owner.stamina < self.action_cost:
@@ -117,12 +131,21 @@ class Spinning_Attack(Action):
     def execute(self):
         self.can_execute()
         val = [-1, 0, 1]
+        pos_list = []
         for x in val:
             for y in val:
-                if x == 0 and y == 0 or not self.owner.game.grid.in_bounds(self.owner.x + x, self.owner.y + y):
+                new_x, new_y = self.owner.x + x, self.owner.y + y
+                if x == 0 and y == 0 or not self.owner.game.grid.in_bounds(new_x, new_y):
                     continue
                 else:
-                    Sprite_object(self.owner.x + x, self.owner.y + y)
+                    Sprite_object(new_x, new_y)
+                    pos_list.append((new_x, new_y))
+
+        for _, objects in self.owner.game.grid.query_positions(pos_list).items():
+            for obj in objects:
+                if hasattr(obj, "health"):
+                    self.take_damage(obj, self.damage)
+
         self.owner.stamina -= self.action_cost
 
     def __repr__(self):

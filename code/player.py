@@ -25,6 +25,10 @@ class Player(AnimatedSprite):
         self.max_stamina = 10 
         self.stamina = self.max_stamina
 
+        self.max_health = 10
+        self.health = self.max_health
+
+
     def load(self, num):
         boar_SE = SpriteSheet(
             path.join("graphics", "critters", "boar", "boar_SE_idle_strip.png"),
@@ -128,8 +132,10 @@ class Player(AnimatedSprite):
 
     def reset_position(self):
         """Move player back to start position of the round"""
-        self.rect.x = self.start_x
-        self.rect.y = self.start_y
+        self.x = self.start_x
+        self.y = self.start_y
+        self.rect.topleft = self.game.grid.grid_to_screen(self.x, self.y)
+        self.stamina = self.max_stamina
 
     def on_draw(self, delta_time: float):
         self.game.display_surface.blit(self.image, self.rect.move(self.draw_offset))

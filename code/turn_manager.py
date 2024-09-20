@@ -29,11 +29,12 @@ class Turn_Manager(Game_object):
     def change_player(self):
         """change player and triggers action round"""
         self.player_list[self.selected_player].reset_position()
-        if self.selected_player < self.player_list:
+        if self.selected_player < len(self.player_list) -1:
             self.selected_player += 1
         else:
             self.selected_player = 0
-            self.resolve = True
+            # FIXME:Need to add resole logic
+            # self.resolve = True
 
     def apply_all_moves(self):
         """make all the players moves at the same time"""
@@ -52,6 +53,7 @@ class Turn_Manager(Game_object):
             self.current_round = 0
             self.displaying_moves = False
 
-    def update(self, delta_time):
-        if self.resolve:
-            self.apply_all_moves()
+    def on_update(self, delta_time):
+        # if self.resolve:
+        #     self.apply_all_moves()
+        pass

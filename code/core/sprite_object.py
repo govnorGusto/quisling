@@ -23,3 +23,12 @@ class Sprite_object(Game_object):
 
     def on_draw(self, delta_time: float):
         self.game.display_surface.blit(self.image, self.rect)
+
+    # TODO: right now this don't get called?
+    def on_update(self, delta_time: float):
+        self.check_health()
+
+    def check_health(self):
+        if hasattr(self, "health"):
+            if self.health <= 0:
+                print(f"{self} died!")

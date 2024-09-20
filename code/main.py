@@ -63,7 +63,6 @@ class Game:
         for game_object in self.game_objects:
             game_object.update(delta_time)
 
-        self.turn_manager.update(delta_time)
 
     def draw(self, delta_time):
         self.display_surface.fill(BG_COLOR)
