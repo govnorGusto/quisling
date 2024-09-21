@@ -1,15 +1,19 @@
+from math import factorial
 from settings import *
 from turn_manager import Turn_Manager
 from core.message_router import Message_Router
 from core.input_manager import Input_Manager
 from core.game_object import Game_object
+from resolve import Resolve
+from audio.audio import *
 
-from ui.ui_button import UI_Button
-from ui.ui_text import UI_Text
-from ui.uicore.ui_canvas import UI_Canvas
+from ui.ui_manager import *
 
 from core.grid import Grid
 from controller import Controller
+
+from ui.ui_manager import construct_ui_element
+from ui.ui_definitions import UI_NEXT_BUTTON
 
 
 class Game:
@@ -19,48 +23,53 @@ class Game:
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("the quisling project")
 
+        self.message_router = Message_Router()
         self.game_objects: [Game_object] = []
         self.input_manager = Input_Manager(self)
         self.grid = Grid()
         self.turn_manager = Turn_Manager()
-        self.message_router = Message_Router()
         self.controller = Controller()
-
+        self.audio_player = Audio_player()
+        
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
-
-        ### TODO: I don't like keeping this definition in the init.
-        ###       I assume we need some scene manager or the like where can keep
-        ###       relevant UI definitions for each game state // Herjeman
-        self.button_canvas = UI_Canvas(
-            pygame.Rect(WINDOW_WIDTH - 220, WINDOW_HEIGHT - 120, 200, 100)
-        )
-        self.button_canvas.color = (100, 100, 100)
-        button = self.button_canvas.add_child(UI_Button)
-        button.click_callbacks.append(self.turn_manager.change_player)
-        text = button.add_child(UI_Text)
-        text.text = "End Turn"
+        self.message_router.register_callback("GameOver", self.on_game_over)
+        
+        UI_Manager()
 
     def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):
             print("ERROR: Do not add non Game Object derived objects as Game objects")
             return
         self.game_objects.append(game_object)
+        
+    def delete_game_object(self, game_object):
+        self.game_objects.remove(game_object)
+        del game_object
 
     def process_input(self):
         self.input_manager.process_input()
 
-    def on_quit(self, eventdata):
+    def on_quit(self, eventdata=0):
         self.running = False
 
     def on_end_turn(self, eventdata):
         self.turn_manager.change_player()
+        
+    def on_game_over(self, losing_player_index : int):
+        make_game_over_menu(self.on_quit, losing_player_index)
 
     def update(self, delta_time):
+        to_delete = []
+        
         for game_object in self.game_objects:
             game_object.update(delta_time)
+            if game_object.is_garbage:
+                to_delete.append(game_object)
 
-        self.turn_manager.update(delta_time)
-
+        for game_object in to_delete:
+            self.game_objects.remove(game_object)
+            del game_object
+                
     def draw(self, delta_time):
         self.display_surface.fill(BG_COLOR)
 
@@ -71,9 +80,10 @@ class Game:
 
     def initialise_game(self):
         self.running = True
-        self.grid.load_tmx(join("graphics", "tmx", "level_test.tmx"))
-        # self.grid.load_tmx(join("graphics", "tmx", "grass.tmx"))
+        self.grid.load_tmx(os.path.join(BASE_DIR, '..', 'graphics', 'tmx', 'level_test.tmx'))
+        # self.grid.load_tmx(os.path.join(BASE_DIR, 'graphics', 'tmx', 'grass.tmx'))
         self.turn_manager.get_players()
+        self.audio_player.play_music()
 
     def shutdown(self):
         pygame.quit()
@@ -81,7 +91,8 @@ class Game:
 
     def run(self):
         self.initialise_game()
-
+        total_runtime = 0
+        
         while self.running:
             delta_time = self.clock.tick(FPS) / 1000
 
@@ -90,7 +101,6 @@ class Game:
             self.draw(delta_time)
 
         self.shutdown()
-
 
 if __name__ == "__main__":
     game = Game()

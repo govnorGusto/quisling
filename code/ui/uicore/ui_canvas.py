@@ -1,29 +1,39 @@
 import pygame
+from dataclasses import dataclass
 from enum import Enum
 from core.game_object import Game_object
-
 
 class EStackingMode(Enum):
     VERTICAL = 0
     HORIZONTAL = 1
-
+    
+@dataclass
+class UIDefinitionData:
+    ui_type : type = None
+    position : tuple = (0, 0)
+    size : tuple = (200, 100)
+    element_size : tuple = (100, 50)
+    padding : tuple = (20, 20)
+    color : tuple = (100, 100, 100)
+    alpha : float = 255
+    stacking_mode: EStackingMode = EStackingMode.VERTICAL
+    element_definitions : list = None
 
 class UI_Canvas(Game_object):
 
-    def __init__(self, rect: pygame.Rect, parent=0) -> None:
+    def __init__(self, rect : pygame.Rect, parent=0) -> None:
         super().__init__(self)
-
         self.parent: UI_Canvas = parent
         self.visible: bool = True
 
         self.rect: pygame.Rect = rect
+        self.element_width = 100
+        self.element_height = 50
+        self.horisontal_padding = 20
+        self.vertical_padding = 20
         self.color = (255, 0, 255)
         self.alpha = 255
 
-        self.horisontal_padding = 20
-        self.vertical_padding = 20
-        self.element_width = 100
-        self.element_height = 50
         self.stacking_mode = EStackingMode.VERTICAL
 
         self._child_canvases: [UI_Canvas] = []
@@ -75,6 +85,13 @@ class UI_Canvas(Game_object):
             width = self.element_width
             height = self.rect.height - self.vertical_padding * 2
             return pygame.Rect(left, top, width, height)
+        
+    def mark_for_delete(self):
+        super().mark_for_delete()
+        for child in self._child_canvases:
+            child.mark_for_delete()
+        self._child_canvases.clear()
+        
 
     ### FOR EASY DEBUGGING
     def print(self) -> None:
