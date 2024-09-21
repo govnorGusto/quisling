@@ -4,6 +4,8 @@ from turn_manager import Turn_Manager
 from core.message_router import Message_Router
 from core.input_manager import Input_Manager
 from core.game_object import Game_object
+from resolve import Resolve
+from audio.audio import *
 
 from ui.ui_manager import *
 
@@ -12,7 +14,6 @@ from controller import Controller
 
 from ui.ui_manager import construct_ui_element
 from ui.ui_definitions import UI_NEXT_BUTTON
-from resolve import Resolve
 
 
 class Game:
@@ -28,6 +29,7 @@ class Game:
         self.grid = Grid()
         self.turn_manager = Turn_Manager()
         self.controller = Controller()
+        self.audio_player = Audio_player()
         
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
         self.message_router.register_callback("GameOver", self.on_game_over)
@@ -81,6 +83,7 @@ class Game:
         self.grid.load_tmx(join("graphics", "tmx", "level_test.tmx"))
         # self.grid.load_tmx(join("graphics", "tmx", "grass.tmx"))
         self.turn_manager.get_players()
+        self.audio_player.play_music()
 
     def shutdown(self):
         pygame.quit()
