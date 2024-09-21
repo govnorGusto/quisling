@@ -14,6 +14,7 @@ MUSIC_SOURCES = [
 class Audio_player(Game_object):
     def __init__(self):
         self.sfx_mixer = pygame.mixer.init()
+        pygame.mixer.music.set_volume(0.3)
         self.current_song = -1
         self.should_loop = True
         self.stop_event = pygame.event.custom_type()
