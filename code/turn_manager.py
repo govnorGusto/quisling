@@ -29,7 +29,7 @@ class Turn_Manager(Game_object):
             
         self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
         self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
-
+            
     def change_player(self):
         """change player and triggers action round"""
         self.get_current_player().reset_position()
@@ -38,8 +38,10 @@ class Turn_Manager(Game_object):
         else:
             self.selected_player = 0
             self.is_resolving = True
+            self.game.message_router.broadcast_message("ResolvePhase", 0)
             Resolve(self.player_list[0].stored_actions, self.player_list[1].stored_actions)
-            
+            self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
+            return
         
         self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
         self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
@@ -49,4 +51,4 @@ class Turn_Manager(Game_object):
             raise Error("End resolve event recieved while not resolving")
         
         self.is_resolving = False
-            
+        self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)

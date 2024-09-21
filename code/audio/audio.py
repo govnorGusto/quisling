@@ -30,9 +30,7 @@ class Audio_player(Game_object):
     def play_music(self, song_index=-1):
         if song_index == -1:
             self.current_song = randbelow(len(MUSIC_SOURCES) - 1)
-            print(f"Playing song {self.current_song} from random")
-        else:
-            print(f"Playing song {self.current_song} from selection")
+
         pygame.mixer.music.load(MUSIC_SOURCES[self.current_song])
         pygame.mixer.music.play()
         pygame.mixer_music.set_endevent(self.stop_event)

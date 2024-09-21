@@ -29,9 +29,12 @@ class Input_Manager(Game_object):
     def __init__(self, game):
         super().__init__(game)
         self.game.message_router.register_callback("Resolve", self.block_action_input)
+        self.game.message_router.register_callback(
+            "WaitForPlayerReady", self.block_action_input
+        )
         self.game.message_router.register_callback("GameOver", self.permablock)
         self.game.message_router.register_callback(
-            "ResolveOver", self.unblock_action_input
+            "PlayerReady", self.unblock_action_input
         )
         self.action_input_blocked = False
         self.action_input_blocked_permanent = False
@@ -44,7 +47,7 @@ class Input_Manager(Game_object):
             self.game.message_router.broadcast_message(event.type, event)
 
             if self.action_input_blocked:
-                return
+                continue
 
             if event.type == pygame.KEYDOWN and event.key in InputDirectionDict:
                 self.game.message_router.broadcast_message(

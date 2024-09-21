@@ -14,6 +14,7 @@ class UI_Text(UI_Canvas):
     ### Note: this is a naive override of Super().draw(), consider if we ever want text elements to
     ###       have children
     def on_draw(self, delta_time : float) -> None:
+        super().on_draw(delta_time)
         text_to_draw = self.prefix + self.text + self.suffix
         
         text_surface = pygame.font.SysFont(None, 30).render(
