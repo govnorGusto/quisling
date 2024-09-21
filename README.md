@@ -10,6 +10,12 @@ To run this project, ensure you have at least **Python 3.12** installed.
 
 You can run the game without installing dependencies globally by using a virtual environment, to do so, navigate to the quisling directory and then:
 
+1. **Install Pipenv:**
+   - If you don't have pipenv already installed:
+     ```bash
+     pip install --user pipenv
+     ```
+
 1. **Create a virtual environment:**
    ```bash
    pipenv run install-req
