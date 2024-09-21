@@ -8,7 +8,6 @@ class Player(AnimatedSprite):
     def __init__(self, x, y, num=None) -> None:
         super().__init__(x, y)
 
-        self.image = pygame.Surface((TILESIZE, TILESIZE))
         self.id = num
         self.draw_offset = (0, 0)
         self.load(num)
