@@ -22,14 +22,11 @@ ANIMATION_SPEED = 1 / FPS
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-LEVEL_NAMES = [
-            "Island",
-            "Grassland",
-            "Desert"
-            ]
+LEVEL_NAMES = ["Island", "Grassland", "Desert", "The Bridge"]
 
 MAP_PATHS = [
-    os.path.join(BASE_DIR, '..', 'graphics', 'tmx', 'level_test.tmx'),
-    os.path.join(BASE_DIR, '..' , 'graphics', 'tmx', 'grass.tmx'),
-    os.path.join(BASE_DIR, '..' , 'graphics', 'tmx', 'desert.tmx')
-    ]
+    os.path.join(BASE_DIR, "..", "graphics", "tmx", "level_test.tmx"),
+    os.path.join(BASE_DIR, "..", "graphics", "tmx", "grass.tmx"),
+    os.path.join(BASE_DIR, "..", "graphics", "tmx", "desert.tmx"),
+    os.path.join(BASE_DIR, "..", "graphics", "tmx", "bridge.tmx"),
+]
