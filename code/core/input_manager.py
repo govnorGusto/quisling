@@ -8,6 +8,11 @@ INPUT_RIGHT = pygame.K_d
 BASH_ATTACK = pygame.K_b
 SPINNING_ATTACK = pygame.K_m
 
+MOUSE_INPUT_ROTATION = 45
+MOVE_INPUT_BOUNDING_RECT_SIZE = (300, 300)
+UP    = pygame.Vector2(0, -1).rotate(MOUSE_INPUT_ROTATION)
+LEFT  = pygame.Vector2(-1, 0).rotate(MOUSE_INPUT_ROTATION)
+
 
 InputDirectionDict = {}
 # InputDirectionDict[INPUT_UP] = (0, -1)
@@ -58,6 +63,9 @@ class Input_Manager(Game_object):
                     "attack_command", attack_dict[event.key]
                 )
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.process_mouse_move_input()
+
     def block_action_input(self, data):
         self.action_input_blocked = True
 
@@ -79,3 +87,41 @@ class Input_Manager(Game_object):
         if self.action_input_blocked:
             return
         self.game.message_router.broadcast_message("attack_command", "spinning_attack")
+
+    def process_mouse_move_input(self):
+        mPos = pygame.Vector2(pygame.mouse.get_pos())
+        pPos = pygame.Vector2(self.game.turn_manager.get_current_player().rect.center)
+        
+        if not is_valid_mouse_move_input(mPos, pPos):
+            return
+
+        direction = mPos - pPos
+        direction.normalize_ip()
+        
+        up_dot = direction.dot(UP)
+        left_dot = direction.dot(LEFT)
+
+        if abs(up_dot) > abs(left_dot):
+            if up_dot > 0:
+                self.game.message_router.broadcast_message(
+                    "Move_command", InputDirectionDict[INPUT_UP]
+                )
+            else:
+                self.game.message_router.broadcast_message(
+                    "Move_command", InputDirectionDict[INPUT_DOWN]
+                )
+                
+        else:
+            if left_dot > 0:
+                self.game.message_router.broadcast_message(
+                    "Move_command", InputDirectionDict[INPUT_LEFT]
+                )
+            else:
+                self.game.message_router.broadcast_message(
+                    "Move_command", InputDirectionDict[INPUT_RIGHT]
+                )
+                
+def is_valid_mouse_move_input(mPos : tuple, pPos :tuple):
+    bounding_rect = pygame.Rect(pPos, MOVE_INPUT_BOUNDING_RECT_SIZE)
+    bounding_rect.center = pPos
+    return bounding_rect.collidepoint(mPos)
