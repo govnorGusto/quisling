@@ -47,6 +47,8 @@ class UI_Manager(Game_object):
 
     def on_player_change(self, eventdata):
         self.game.message_router.broadcast_message("WaitForPlayerReady")
+        if self.game.game_over:
+            return
         make_next_player_screen(eventdata, self.on_player_ready)
 
     def on_player_ready(self):
@@ -162,7 +164,8 @@ def make_next_player_screen(state: EReadyScreenState, continue_func):
 
     button = make_button(menu, "Continue", continue_func)
     button.click_callbacks.append(menu.mark_for_delete)
-    
+
+
 def make_outofstamina_screen():
     menu = UI_Canvas(pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT))
     menu.color = (0, 0, 0)
@@ -172,9 +175,10 @@ def make_outofstamina_screen():
     text = menu.add_child(UI_Text)
     text.color = UI_BACKGROUND_COLOR
     text.alpha = 255
-    text.text = "OUT OF STAMINA!!!"
+    text.text = "NOT ENOUGH STAMINA, MAYBE END TURN?"
     menu.lifetime = 0.75
-    
+
+
 def make_level_select_screen(level_names, func):
     menu = UI_Canvas(pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT))
     menu.color = (0, 0, 0)
@@ -185,7 +189,7 @@ def make_level_select_screen(level_names, func):
     text.color = UI_BACKGROUND_COLOR
     text.alpha = 255
     text.text = "Select a level"
-    
+
     i = 0
     for level in level_names:
         button = make_button(menu, level_names[i], func, i)

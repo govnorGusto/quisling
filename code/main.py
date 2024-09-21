@@ -26,6 +26,7 @@ class Game:
         self.game_objects: [Game_object] = []
         self.input_manager = Input_Manager(self)
         self.selected_map = ""
+        self.game_over = False
         
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
         self.message_router.register_callback("GameOver", self.on_game_over)
@@ -50,6 +51,7 @@ class Game:
         self.turn_manager.change_player()
         
     def on_game_over(self, losing_player_index : int):
+        self.game_over = True
         make_game_over_menu(self.on_quit, losing_player_index)
 
     def update(self, delta_time):
@@ -91,6 +93,7 @@ class Game:
         self.grid.load_tmx(self.selected_map)
         self.turn_manager.get_players()
         self.audio_player.play_music()
+        self.game_over = False
 
     def shutdown(self):
         pygame.quit()
