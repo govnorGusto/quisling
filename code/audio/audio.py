@@ -4,10 +4,10 @@ from settings import *
 from core.game_object import Game_object
 
 MUSIC_SOURCES = [
-    path.join("audio", "music", "battle.mp3"),
-    path.join("audio", "music", "laugh.mp3"),
-    path.join("audio", "music", "yes_3.mp3"),
-    path.join("audio", "music", "yes_5.mp3"),
+    os.path.join(BASE_DIR, '..', "audio", "music", "battle.mp3"),
+    os.path.join(BASE_DIR, '..', "audio", "music", "laugh.mp3"),
+    os.path.join(BASE_DIR, '..', "audio", "music", "yes_3.mp3"),
+    os.path.join(BASE_DIR, '..', "audio", "music", "yes_5.mp3"),
 ]
 
 

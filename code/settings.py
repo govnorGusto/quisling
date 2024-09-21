@@ -1,5 +1,5 @@
 import pygame, sys
-from os import path
+import os
 from pygame.math import Vector2 as vector
 from os.path import join
 
@@ -19,3 +19,5 @@ GRID_COLOR = (100, 100, 100)
 
 PLAYER_AMOUNT = 2
 ANIMATION_SPEED = 1 / FPS
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))

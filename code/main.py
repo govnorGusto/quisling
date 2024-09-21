@@ -80,8 +80,8 @@ class Game:
 
     def initialise_game(self):
         self.running = True
-        self.grid.load_tmx(join("graphics", "tmx", "level_test.tmx"))
-        # self.grid.load_tmx(join("graphics", "tmx", "grass.tmx"))
+        self.grid.load_tmx(os.path.join(BASE_DIR, '..', 'graphics', 'tmx', 'level_test.tmx'))
+        # self.grid.load_tmx(os.path.join(BASE_DIR, 'graphics', 'tmx', 'grass.tmx'))
         self.turn_manager.get_players()
         self.audio_player.play_music()
 

@@ -5,11 +5,10 @@ from spritesheet import SpriteSheet, Animation
 class Attack_Sprite(AnimatedSprite):
     def __init__(self, x, y, file, id):
         super().__init__(x, y)
-        print(x, y)
         self.file = file
 
         sprite = SpriteSheet(
-            path.join("graphics", "attacks", file),
+            os.path.join(BASE_DIR, "..", "graphics", "attacks", file),
             bg="black",
         )
         self.draw_offset = (16, 0)

@@ -32,23 +32,23 @@ class Player(AnimatedSprite):
 
     def load(self, num):
         boar_SE = SpriteSheet(
-            path.join("graphics", "critters", "boar", "boar_SE_idle_strip.png"),
+            os.path.join(BASE_DIR, '..', "graphics", "critters", "boar", "boar_SE_idle_strip.png"),
             bg="black",
         )
         boar_SE_idle = [(i * 41, 0, 41, 25) for i in range(6)]
         boar_NE = SpriteSheet(
-            path.join("graphics", "critters", "boar", "boar_NE_idle_strip.png"),
+            os.path.join(BASE_DIR, '..', "graphics", "critters", "boar", "boar_NE_idle_strip.png"),
             bg="black",
         )
         boar_NE_idle = [(i * 41, 0, 41, 28) for i in range(6)]
 
         stag_SE = SpriteSheet(
-            path.join("graphics", "critters", "stag", "critter_stag_SE_idle.png"),
+            os.path.join(BASE_DIR, '..', "graphics", "critters", "stag", "critter_stag_SE_idle.png"),
             bg="black",
         )
         stag_SE_idle = [(i * 32, 0, 32, 41) for i in range(23)]
         stag_NE = SpriteSheet(
-            path.join("graphics", "critters", "stag", "critter_stag_NE_idle.png"),
+            os.path.join(BASE_DIR, '..', "graphics", "critters", "stag", "critter_stag_NE_idle.png"),
             bg="black",
         )
         stag_NE_idle = [(i * 32, 0, 32, 41) for i in range(23)]

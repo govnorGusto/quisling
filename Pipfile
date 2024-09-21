@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytmx = "3.32"
+pygame-ce = "2.5.1"
+
+[dev-packages]
+
+[scripts]
+install-req = "pip install -r requirements.txt"
+
+[requires]
+python_version = "3.12"
