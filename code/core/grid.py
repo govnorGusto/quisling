@@ -73,7 +73,7 @@ class Grid(Game_object):
         if 0 <= x < self.width and 0 <= y < self.height:
             return True
         else:
-            print("Invalid move: Out of grid bounds")
+            self.game.message_router.broadcast_message("BadMove")
             return False
 
     def query_objects(self, objects: list) -> dict:

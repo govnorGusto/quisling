@@ -1,5 +1,18 @@
 # gamejams-quisling
 
+## How to play the game
+
+This is a 2-player game where players take turns making their moves. Here’s how it works:
+
+1. Each player takes turns to make their moves.
+2. When you are satisfied with your round or if you run out of stamina, click End Turn. This resets your position, and it becomes the next player's turn.
+3. After both players have completed their turns, the Resolve moves phase begins. During this phase, players moves gets executed at the same time.
+4. If a player is hit by an attack, they lose health. The game ends when one player's health reaches zero, and the other player is declared the winner.
+5. TRAITOR: Play with someone you trust, or they just might look over your shoulder and betray you!!!
+
+## Enjoy the Game!
+Feel free to reach out for any issues or feedback. Happy gaming!
+
 **Studio Rakkas**' contribution to the **pyWeek38** game jam, with the theme "Traitor".
 
 ## Requirements
@@ -39,17 +52,5 @@ You can run the game without installing dependencies globally by using a virtual
      python path/to/main.py
      ```
    - Or run main.py within your IDE.
-
-## How to play the game
-
-This is a 2-player game where players take turns making their moves. Here’s how it works:
-
-1. Each player takes turns to make their moves.
-2. When you are satisfied with your round or if you run out of stamina, click End Turn. This resets your position, and it becomes the next player's turn.
-3. After both players have completed their turns, the Resolve moves phase begins. During this phase, players moves gets executed at the same time.
-4. If a player is hit by an attack, they lose health. The game ends when one player's health reaches zero, and the other player is declared the winner.
-
-## Enjoy the Game!
-Feel free to reach out for any issues or feedback. Happy gaming!
 
 

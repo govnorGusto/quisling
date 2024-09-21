@@ -1,6 +1,7 @@
 from actions.action import Action
 from core.sprite_object import Sprite_object
 from attack_sprite import Attack_Sprite
+from settings import *
 
 class Bash_Attack(Action):
     def __init__(self, owner, action_cost=2):
@@ -25,6 +26,7 @@ class Bash_Attack(Action):
                 for obj in objects:
                     if hasattr(obj, "health"):
                         self.take_damage(obj, self.damage)
-
+        
+        self.owner.game.message_router.broadcast_message("PlaySFX", SFX_BASH)
         self.owner.modify_stamina(-self.action_cost)
         self.store()

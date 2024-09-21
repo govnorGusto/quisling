@@ -1,4 +1,5 @@
 from actions.action import Action
+from settings import SFX_SPIN
 from core.sprite_object import Sprite_object
 from attack_sprite import Attack_Sprite
 
@@ -35,5 +36,6 @@ class Spinning_Attack(Action):
                 if hasattr(obj, "health"):
                     self.take_damage(obj, self.damage)
 
+        self.owner.game.message_router.broadcast_message("PlaySFX", SFX_SPIN)
         self.owner.modify_stamina(-self.action_cost)
         self.store()
