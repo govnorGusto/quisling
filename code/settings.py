@@ -33,3 +33,24 @@ MAP_PATHS = [
     os.path.join(BASE_DIR, '..' , 'graphics', 'tmx', 'grass.tmx'),
     os.path.join(BASE_DIR, '..' , 'graphics', 'tmx', 'desert.tmx')
     ]
+
+MUSIC_SOURCES = [
+    os.path.join(BASE_DIR, '..', "audio", "music", "GJ Battle .wav"),
+    os.path.join(BASE_DIR, '..', "audio", "music", "GJ Music 1.wav"),
+    os.path.join(BASE_DIR, '..', "audio", "music", "GJ Music 2.wav"),
+    os.path.join(BASE_DIR, '..', "audio", "music", "GJ Music 3.wav")
+]
+
+SFX_SOURCES = [
+        os.path.join(BASE_DIR, '..', "audio", "sfx", "GJ Bash.wav"),
+        os.path.join(BASE_DIR, '..', "audio", "sfx", "GJ Button Hover.wav"),
+        os.path.join(BASE_DIR, '..', "audio", "sfx", "GJ Move.wav"),
+        os.path.join(BASE_DIR, '..', "audio", "sfx", "GJ Spin Attack.wav"),
+        os.path.join(BASE_DIR, '..', "audio", "sfx", "GJ Take Damage.wav")
+    ]
+
+SFX_BASH = 0
+SFX_CLICK = 1
+SFX_MOVE = 2
+SFX_SPIN = 3
+SFX_DAMAGE = 4

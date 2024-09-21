@@ -1,6 +1,7 @@
 import pygame
 from core.message_router import Message_Router
 from core.game_object import Component
+from settings import *
 
 
 class Clickable(Component):
@@ -38,6 +39,7 @@ class Clickable(Component):
         if not self.mouse_is_overlapping:
             return
         for callback in self.on_click:
+            self.owner.game.message_router.broadcast_message("PlaySFX", SFX_CLICK)
             callback()
     
     def OnMouseUp(self, eventdata):

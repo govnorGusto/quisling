@@ -41,6 +41,9 @@ class UI_Manager(Game_object):
         self.game.message_router.register_callback(
             "OutOfStamina", self.on_out_of_stamina
         )
+        self.game.message_router.register_callback(
+            "BadMove", self.on_badmove
+        )
 
     def transfer_hp_callback(self, eventdata: tuple):
         self.player_hp_delegates[eventdata[0]](eventdata[1])
@@ -56,6 +59,9 @@ class UI_Manager(Game_object):
 
     def on_out_of_stamina(self, eventdata):
         make_outofstamina_screen()
+        
+    def on_badmove(self, eventdata):
+        make_badmove_screen()
 
 
 def construct_ui_element(indata: UIDefinitionData, parent=0) -> UI_Canvas:
@@ -176,6 +182,18 @@ def make_outofstamina_screen():
     text.color = UI_BACKGROUND_COLOR
     text.alpha = 255
     text.text = "NOT ENOUGH STAMINA, MAYBE END TURN?"
+    menu.lifetime = 0.75
+    
+def make_badmove_screen():
+    menu = UI_Canvas(pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT))
+    menu.color = (0, 0, 0)
+    menu.alpha = 50
+    menu.horisontal_padding = 350
+    menu.vertical_padding = 300
+    text = menu.add_child(UI_Text)
+    text.color = UI_BACKGROUND_COLOR
+    text.alpha = 255
+    text.text = "INVALID MOVE, MAYBE TRY SOMETHING ELSE?"
     menu.lifetime = 0.75
 
 

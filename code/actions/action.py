@@ -1,3 +1,5 @@
+from settings import SFX_DAMAGE
+
 class Action:
     def __init__(self, owner, action_cost: int):
 
@@ -36,9 +38,7 @@ class Action:
     def take_damage(self, obj, damage):
         if self.owner.game.turn_manager.is_resolving:
             obj.modify_health(-damage)
-            print(f"{obj} has taken {damage} damage")
-        else:
-            print(f"{obj} would have taken {damage} damage, but this is not real")
+            self.owner.game.message_router.broadcast_message("PlaySFX", SFX_DAMAGE)
                         
     def store(self, *args):
         if hasattr(self.owner, "stored_actions"):

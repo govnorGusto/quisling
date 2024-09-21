@@ -1,4 +1,5 @@
 from actions.action import Action
+from settings import *
 
 class Move(Action):
     def __init__(self, owner, action_cost=1):
@@ -27,6 +28,8 @@ class Move(Action):
         if not self.can_execute(new_x, new_y):
             return
         
+        self.owner.game.message_router.broadcast_message("PlaySFX", SFX_MOVE)
+
         self.owner.x = new_x
         self.owner.y = new_y
         self.owner.game.grid.move(self.owner, self.owner.x, self.owner.y)
