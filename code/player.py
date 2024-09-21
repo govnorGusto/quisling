@@ -136,6 +136,7 @@ class Player(AnimatedSprite):
         self.x = self.start_x
         self.y = self.start_y
         self.rect.topleft = self.game.grid.grid_to_screen(self.x, self.y)
+        self.game.grid.move(self, self.x, self.y)
         self.modify_stamina(self.max_stamina-self.stamina)
 
     def on_draw(self, delta_time: float):

@@ -5,15 +5,20 @@ class Move(Action):
         super().__init__(owner, action_cost)
 
     def can_execute(self, dx, dy):
+        from player import Player
         if hasattr(self.owner, "stamina"):
             if self.owner.stamina < self.action_cost:
                 self.owner.game.message_router.broadcast_message("OutOfStamina")
                 return False
-        if not (
-            self.owner.game.grid.in_bounds(dx, dy)
-            and self.owner.game.grid.map[dx][dy].tile.walkable
+        if (
+            not self.owner.game.grid.in_bounds(dx, dy)
+            or not self.owner.game.grid.map[dx][dy].tile.walkable
         ):
             return False
+        occupants = self.owner.game.grid.query_positions([(dx, dy)])
+        if occupants:
+            if any(isinstance(item, Player) for item in next(iter(occupants.values()))):
+                return False
         return True
 
     def execute(self, dx, dy):
