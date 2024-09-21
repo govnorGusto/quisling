@@ -8,9 +8,9 @@ class Action:
         # This feels like a more natural move pattern
         self.directions = {
             "up": (1, 0),
-            "down": (0, 1),
+            "down": (-1, 0),
             "left": (0, -1),
-            "right": (0, -1),
+            "right": (0, 1),
         }
 
     def can_execute(self):
@@ -25,13 +25,13 @@ class Action:
     def get_direction(self, direction):
         match direction:
             case 0:
-                return self.directions["up"]
-            case 1:
-                return self.directions["right"]
-            case 2:
-                return self.directions["down"]
-            case 3:
                 return self.directions["left"]
+            case 1:
+                return self.directions["up"]
+            case 2:
+                return self.directions["right"]
+            case 3:
+                return self.directions["down"]
 
     def take_damage(self, obj, damage):
         if self.owner.game.turn_manager.is_resolving:
