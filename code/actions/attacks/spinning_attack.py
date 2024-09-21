@@ -1,7 +1,6 @@
 from actions.action import Action
 from core.sprite_object import Sprite_object
 from attack_sprite import Attack_Sprite
-from actions.get_files import get_files
 
 VFX_LIFETIME = 0.75
 

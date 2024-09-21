@@ -1,7 +1,6 @@
 from actions.action import Action
 from core.sprite_object import Sprite_object
 from attack_sprite import Attack_Sprite
-from actions.get_files import get_files
 
 class Bash_Attack(Action):
     def __init__(self, owner, action_cost=2):
