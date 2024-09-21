@@ -34,5 +34,6 @@ class AnimatedSprite(Sprite_object):
     def is_animation_finished(self):
         return self.active_anim.is_animation_finished(self.elapsed_time)
 
-    def update(self, dt):
-        self.elapsed_time += dt
+    def update(self, delta_time):
+        super().update(delta_time)
+        self.elapsed_time += delta_time
