@@ -11,6 +11,7 @@ pygame-ce = "2.5.1"
 
 [scripts]
 install-req = "pip install -r requirements.txt"
+start = "pipenv run python code/main.py"
 
 [requires]
 python_version = "3.12"
