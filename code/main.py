@@ -1,4 +1,4 @@
-from math import factorial
+import random
 from settings import *
 from turn_manager import Turn_Manager
 from core.message_router import Message_Router
@@ -15,7 +15,6 @@ from controller import Controller
 from ui.ui_manager import construct_ui_element
 from ui.ui_definitions import UI_NEXT_BUTTON
 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -26,15 +25,10 @@ class Game:
         self.message_router = Message_Router()
         self.game_objects: [Game_object] = []
         self.input_manager = Input_Manager(self)
-        self.grid = Grid()
-        self.turn_manager = Turn_Manager()
-        self.controller = Controller()
-        self.audio_player = Audio_player()
+        self.selected_map = ""
         
         self.message_router.register_callback(pygame.QUIT, self.on_quit)
         self.message_router.register_callback("GameOver", self.on_game_over)
-        
-        UI_Manager()
 
     def add_game_object(self, game_object: Game_object) -> None:
         if not issubclass(game_object.__class__, Game_object):
@@ -77,11 +71,24 @@ class Game:
             game_object.draw(delta_time)
 
         pygame.display.update()
+        
+    def set_random_map(self):
+        self.selected_map = random.choice(MAP_PATHS)
 
-    def initialise_game(self):
-        self.running = True
-        self.grid.load_tmx(os.path.join(BASE_DIR, '..', 'graphics', 'tmx', 'level_test.tmx'))
-        # self.grid.load_tmx(os.path.join(BASE_DIR, 'graphics', 'tmx', 'grass.tmx'))
+    def set_map(self, index : int):
+        if index >= len(MAP_PATHS):
+            self.selected_map = MAP_PATHS[0]
+        self.selected_map = MAP_PATHS[index]
+
+    def initialise_game(self, map_index : int):
+        self.level_select_canvas.mark_for_delete()
+        self.grid = Grid()
+        self.turn_manager = Turn_Manager()
+        self.controller = Controller()
+        self.audio_player = Audio_player()
+        UI_Manager()
+        self.set_map(map_index)
+        self.grid.load_tmx(self.selected_map)
         self.turn_manager.get_players()
         self.audio_player.play_music()
 
@@ -90,8 +97,10 @@ class Game:
         sys.exit()
 
     def run(self):
-        self.initialise_game()
+        self.running = True
         total_runtime = 0
+        
+        self.level_select_canvas = make_level_select_screen(LEVEL_NAMES, self.initialise_game)
         
         while self.running:
             delta_time = self.clock.tick(FPS) / 1000

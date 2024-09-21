@@ -175,3 +175,19 @@ def make_outofstamina_screen():
     text.text = "OUT OF STAMINA!!!"
     menu.lifetime = 0.75
     
+def make_level_select_screen(level_names, func):
+    menu = UI_Canvas(pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT))
+    menu.color = (0, 0, 0)
+    menu.alpha = 200
+    menu.horisontal_padding = 350
+    menu.vertical_padding = 100
+    text = menu.add_child(UI_Text)
+    text.color = UI_BACKGROUND_COLOR
+    text.alpha = 255
+    text.text = "Select a level"
+    
+    i = 0
+    for level in level_names:
+        button = make_button(menu, level_names[i], func, i)
+        i += 1
+    return menu
