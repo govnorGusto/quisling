@@ -10,7 +10,7 @@ class Spinning_Attack(Action):
 
     def can_execute(self):
         if self.owner.stamina < self.action_cost:
-            print("Not enough stamina")
+            self.owner.game.message_router.broadcast_message("OutOfStamina")
             return False
         return True
 

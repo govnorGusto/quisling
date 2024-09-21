@@ -38,6 +38,9 @@ class UI_Manager(Game_object):
         self.game.message_router.register_callback(
             "ResolvePhase", self.on_player_change
         )
+        self.game.message_router.register_callback(
+            "OutOfStamina", self.on_out_of_stamina
+        )
 
     def transfer_hp_callback(self, eventdata: tuple):
         self.player_hp_delegates[eventdata[0]](eventdata[1])
@@ -48,6 +51,9 @@ class UI_Manager(Game_object):
 
     def on_player_ready(self):
         self.game.message_router.broadcast_message("PlayerReady")
+
+    def on_out_of_stamina(self, eventdata):
+        make_outofstamina_screen()
 
 
 def construct_ui_element(indata: UIDefinitionData, parent=0) -> UI_Canvas:
@@ -156,3 +162,16 @@ def make_next_player_screen(state: EReadyScreenState, continue_func):
 
     button = make_button(menu, "Continue", continue_func)
     button.click_callbacks.append(menu.mark_for_delete)
+    
+def make_outofstamina_screen():
+    menu = UI_Canvas(pygame.Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT))
+    menu.color = (0, 0, 0)
+    menu.alpha = 50
+    menu.horisontal_padding = 350
+    menu.vertical_padding = 300
+    text = menu.add_child(UI_Text)
+    text.color = UI_BACKGROUND_COLOR
+    text.alpha = 255
+    text.text = "OUT OF STAMINA!!!"
+    menu.lifetime = 0.75
+    

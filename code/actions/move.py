@@ -7,7 +7,7 @@ class Move(Action):
     def can_execute(self, dx, dy):
         if hasattr(self.owner, "stamina"):
             if self.owner.stamina < self.action_cost:
-                print("Not enough stamina")
+                self.owner.game.message_router.broadcast_message("OutOfStamina")
                 return False
         if not (
             self.owner.game.grid.in_bounds(dx, dy)
