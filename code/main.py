@@ -20,7 +20,7 @@ class Game:
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
-        pygame.display.set_caption("the quisling project")
+        pygame.display.set_caption("Animies - the quisling project")
 
         self.message_router = Message_Router()
         self.game_objects: [Game_object] = []
