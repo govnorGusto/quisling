@@ -3,37 +3,36 @@ from sprites import AnimatedSprite
 from spritesheet import SpriteSheet, Animation
 
 class Attack_Sprite(AnimatedSprite):
-    def __init__(self, x, y, id):
+    def __init__(self, x, y, file, id):
         super().__init__(x, y)
-        bash = self.get_files(id)
-        print(bash)
-        bash_sprite = SpriteSheet(
-            path.join("graphics", "attacks", bash),
+        print(x, y)
+        self.file = file
+
+        sprite = SpriteSheet(
+            path.join("graphics", "attacks", file),
             bg="black",
         )
         self.draw_offset = (16, 0)
 
-        idle = [(i * 64, 0, 64, 64) for i in range(13)]
-
-        bash_attack = bash_sprite.get_animation(
-                    idle, 0.1, Animation.PlayMode.LOOP, resize=0.75
+        attack = sprite.get_animation(
+                    [(i * 64, self.get_color(id), 64, 64) for i in range(13)], 0.1, Animation.PlayMode.LOOP, resize=0.75
                 )
 
-        self.store_animation("bash", bash_attack)
+        self.store_animation(self.file, attack)
 
         self.image = self.active_anim.get_frame(0)
 
-
-    def get_files(self, id):
+    def get_color(self, id):
+        """what row to choose in png"""
         match id:
             case 0:
-                return ("589.png")
+                return 0
             case 1:
-                return ("576.png")
+                return 320
 
 
     def animate(self):
-        self.set_active_animation("attack")
+        self.set_active_animation(self.file)
 
         topleft = self.rect.topleft
         self.image = self.active_anim.get_frame(self.elapsed_time)

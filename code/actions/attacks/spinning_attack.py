@@ -1,5 +1,7 @@
 from actions.action import Action
 from core.sprite_object import Sprite_object
+from attack_sprite import Attack_Sprite
+from actions.get_files import get_files
 
 VFX_LIFETIME = 0.75
 
@@ -25,7 +27,7 @@ class Spinning_Attack(Action):
                 if x == 0 and y == 0 or not self.owner.game.grid.in_bounds(new_x, new_y):
                     continue
                 else:
-                    vfx = Sprite_object(new_x, new_y)
+                    vfx = Attack_Sprite(new_x, new_y, "568.png", self.owner.id)
                     vfx.lifetime = VFX_LIFETIME
                     pos_list.append((new_x, new_y))
 

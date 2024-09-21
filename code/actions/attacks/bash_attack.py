@@ -1,6 +1,7 @@
 from actions.action import Action
 from core.sprite_object import Sprite_object
 from attack_sprite import Attack_Sprite
+from actions.get_files import get_files
 
 class Bash_Attack(Action):
     def __init__(self, owner, action_cost=2):
@@ -19,7 +20,7 @@ class Bash_Attack(Action):
         facing = self.get_direction(self.owner.facing)
         new_x, new_y = self.owner.x + facing[0], self.owner.y + facing[1]
         if self.owner.game.grid.in_bounds(new_x, new_y):
-            vfx = Attack_Sprite(new_x, new_y, self.owner.id)
+            vfx = Attack_Sprite(new_x, new_y, "576.png", self.owner.id)
             vfx.lifetime = 0.75
             for _, objects in self.owner.game.grid.query_positions([(new_x, new_y)]).items():
                 for obj in objects:
