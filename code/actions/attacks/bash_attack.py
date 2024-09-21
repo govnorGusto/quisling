@@ -19,9 +19,8 @@ class Bash_Attack(Action):
         facing = self.get_direction(self.owner.facing)
         new_x, new_y = self.owner.x + facing[0], self.owner.y + facing[1]
         if self.owner.game.grid.in_bounds(new_x, new_y):
-            # vfx = Sprite_object(new_x, new_y)
-            vfx = Attack_Sprite(new_x, new_y)
-            # vfx.lifetime = 0.75
+            vfx = Attack_Sprite(new_x, new_y, self.owner.id)
+            vfx.lifetime = 0.75
             for _, objects in self.owner.game.grid.query_positions([(new_x, new_y)]).items():
                 for obj in objects:
                     if hasattr(obj, "health"):
