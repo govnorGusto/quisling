@@ -1,3 +1,6 @@
+from hmac import new
+from random import randint
+from secrets import randbits
 from settings import *
 from player import Player
 from core.game_object import Game_object
@@ -16,16 +19,21 @@ class Turn_Manager(Game_object):
     def get_current_player(self):
         return self.player_list[self.selected_player]
 
-    def get_players(self):
+    def spawn_players(self, invalid_spawns):
         """add list of players"""
-        x = 1
-        y = 1
+        grid_max_x = self.game.grid.width
+        grid_max_y = self.game.grid.height
+        print(invalid_spawns)
+        p1_spawn = (1, 1)
+        p2_spawn = (grid_max_x - 2, grid_max_y - 2)
+        
+        spawn_positions = (sanitise_spawn_locations(p1_spawn, invalid_spawns, (1, 1)), sanitise_spawn_locations(p2_spawn, invalid_spawns, (-1, -1)))
+        
         for i in range(PLAYER_AMOUNT):
+            x, y = spawn_positions[i][0], spawn_positions[i][1]
             p = Player(x, y, i)
             self.game.message_router.broadcast_message("HealthChanged" , (i, p.health))
             self.player_list.append(p)
-            x += 1
-            y += 1
             
         self.game.message_router.broadcast_message("StaminaChanged", self.get_current_player().stamina)
         self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
@@ -52,3 +60,17 @@ class Turn_Manager(Game_object):
         
         self.is_resolving = False
         self.game.message_router.broadcast_message("PlayerChanged", self.selected_player + 1)
+        
+def sanitise_spawn_locations(pos : list, invalid_spawns : list, direction : tuple):
+    if pos not in invalid_spawns:
+        print(f"Accepted Spawn: {pos}")
+        return pos
+    newx = pos[0]
+    newy = pos[1]
+    if randint(0, 1) == 0:
+        newx += direction[0]
+    else:
+        newy += direction[1]
+     
+    print(f"Adjusted Spawn: {pos} to: {(newx, newy)}")
+    return sanitise_spawn_locations((newx, newy), invalid_spawns, direction) 

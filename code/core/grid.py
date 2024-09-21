@@ -12,7 +12,7 @@ class Cell(Game_object):
 
     def __repr__(self) -> str:
         return f"{[obj for obj in self.occupants]}"
-    
+
     def draw_cell(self):
         if self.tile:
             img = pygame.transform.scale(
@@ -22,10 +22,9 @@ class Cell(Game_object):
             img.set_colorkey(BG_COLOR)
             self.game.display_surface.blit(img, self.tile.rect)
 
-
     def on_draw(self, delta_time: float):
         pass
-        
+
 
 class Grid(Game_object):
     def __init__(self):
@@ -45,10 +44,18 @@ class Grid(Game_object):
         self.tile_height = tmx_data.tileheight
         self.map = [[Cell() for _ in range(self.height)] for _ in range(self.width)]
 
+        invalid_spawns = []
+
+        print((self.width, self.height))
+
         for x, y, surf in tmx_data.get_layer_by_name("base").tiles():
             self.map[y][x].tile = Tile(self.grid_to_screen(y, x), surf, False)
+            invalid_spawns.append((x, y))
+
         for x, y, surf in tmx_data.get_layer_by_name("ground").tiles():
             self.map[y][x].tile = Tile(self.grid_to_screen(y, x), surf, True)
+
+        return invalid_spawns
 
     def add(self, obj, x, y):
         self.map[x][y].occupants.append(obj)
@@ -112,10 +119,10 @@ class Grid(Game_object):
 
         loc = origin + x_offset * grid_x + y_offset * grid_y
         return (loc.x, loc.y)
-    
+
     def on_draw(self, delta_time: float):
         self.width
         self.height
-        for x in range(self.width -1, -1, -1):
+        for x in range(self.width - 1, -1, -1):
             for y in range(self.height):
-                 self.map[x][y].draw_cell()
+                self.map[x][y].draw_cell()

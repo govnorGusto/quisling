@@ -90,8 +90,8 @@ class Game:
         self.audio_player = Audio_player()
         UI_Manager()
         self.set_map(map_index)
-        self.grid.load_tmx(self.selected_map)
-        self.turn_manager.get_players()
+        invalid_spawns = self.grid.load_tmx(self.selected_map)
+        self.turn_manager.spawn_players(invalid_spawns)
         self.audio_player.play_music()
         self.game_over = False
 

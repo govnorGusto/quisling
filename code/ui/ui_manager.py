@@ -43,6 +43,7 @@ class UI_Manager(Game_object):
         )
         self.game.message_router.register_callback(
             "BadMove", self.on_badmove
+            
         )
 
     def transfer_hp_callback(self, eventdata: tuple):
@@ -202,7 +203,7 @@ def make_level_select_screen(level_names, func):
     menu.color = (0, 0, 0)
     menu.alpha = 200
     menu.horisontal_padding = 350
-    menu.vertical_padding = 100
+    menu.vertical_padding = 75
     text = menu.add_child(UI_Text)
     text.color = UI_BACKGROUND_COLOR
     text.alpha = 255
