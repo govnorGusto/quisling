@@ -41,7 +41,7 @@ class Input_Manager(Game_object):
         self.game.message_router.register_callback(
             "PlayerReady", self.unblock_action_input
         )
-        self.action_input_blocked = False
+        self.action_input_blocked = True
         self.action_input_blocked_permanent = False
 
         self.game.message_router.register_callback("Bash", self.receive_bash_input)
@@ -89,6 +89,9 @@ class Input_Manager(Game_object):
         self.game.message_router.broadcast_message("attack_command", "spinning_attack")
 
     def process_mouse_move_input(self):
+        if self.action_input_blocked:
+            return
+        
         mPos = pygame.Vector2(pygame.mouse.get_pos())
         pPos = pygame.Vector2(self.game.turn_manager.get_current_player().rect.center)
         

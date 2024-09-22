@@ -23,7 +23,6 @@ class Turn_Manager(Game_object):
         """add list of players"""
         grid_max_x = self.game.grid.width
         grid_max_y = self.game.grid.height
-        print(invalid_spawns)
         p1_spawn = (1, 1)
         p2_spawn = (grid_max_x - 2, grid_max_y - 2)
         
