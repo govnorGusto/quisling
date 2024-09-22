@@ -18,6 +18,9 @@ Feel free to reach out for any issues or feedback. Happy gaming!
 ## Requirements
 
 To run this project, ensure you have at least **Python 3.12** installed.
+Additional requirements:
+   Pygame-ce 2.5.1
+   PyTMX 3.32
 
 ### Installation
 
