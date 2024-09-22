@@ -24,6 +24,8 @@ class Audio_player(Game_object):
         if not self.should_loop:
             return
         self.current_song += 1
+        if self.current_song >= len(MUSIC_SOURCES):
+            current_song = 0
         self.play_music(self.current_song)
 
     def play_music(self, song_index=-1):
